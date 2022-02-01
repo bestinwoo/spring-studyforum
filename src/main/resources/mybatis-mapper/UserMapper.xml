@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="project.aha.repository.UserMapper">
+    <select id="findById" resultType="User">
+        SELECT *
+        from user
+        where id= #{id}
+    </select>
+    <select id="findByEmail" resultType="User">
+        SELECT *
+        from user
+        where email= #{email}
+    </select>
+    <select id="findAll" resultType="User">
+        SELECT *
+        from user
+    </select>
+    <insert id="save" parameterType="User" useGeneratedKeys="true" keyProperty="id">
+        insert into user (email, nickname, password, phone, register_date)
+        values (#{email}, #{nickname}, #{password}, #{phone}, #{registerDate})
+    </insert>
+    <delete id="delete">
+        delete from user
+        where id = #{id}
+    </delete>
+
+</mapper>

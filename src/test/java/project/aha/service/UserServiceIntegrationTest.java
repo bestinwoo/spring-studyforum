@@ -16,20 +16,23 @@ import static org.junit.jupiter.api.Assertions.*;
 @Transactional
 class UserServiceIntegrationTest {
     @Autowired UserService userService;
-    @Autowired UserRepository userRepository;
 
     @Test
     void 회원가입() {
         //given
         User user = new User();
+
         user.setEmail("bestinwoo@gmail.com");
         user.setNickname("bestinu");
         user.setPassword("1111");
-        user.setRegister_date(LocalDateTime.now());
+        user.setRegisterDate(LocalDateTime.now());
+
         //when
         Long saveId = userService.join(user);
         //then
         User findUser = userService.findOne(saveId).get();
+
+
         assertThat(user.getNickname()).isEqualTo(findUser.getNickname());
     }
 
@@ -40,13 +43,13 @@ class UserServiceIntegrationTest {
         user1.setEmail("test");
         user1.setNickname("test");
         user1.setPassword("1111");
-        user1.setRegister_date(LocalDateTime.now());
+        user1.setRegisterDate(LocalDateTime.now());
 
         User user2 = new User();
         user2.setEmail("test");
         user2.setNickname("test");
         user2.setPassword("1111");
-        user2.setRegister_date(LocalDateTime.now());
+        user2.setRegisterDate(LocalDateTime.now());
 
         //when
         userService.join(user1);
@@ -54,5 +57,22 @@ class UserServiceIntegrationTest {
 
         assertThat(e.getMessage()).isEqualTo("이메일 중복");
     }
+
+    @Test
+    void 회원_삭제() {
+        //given
+        User user = new User();
+
+        user.setEmail("bestinwoo@gmail.com");
+        user.setNickname("bestinu");
+        user.setPassword("1111");
+        user.setRegisterDate(LocalDateTime.now());
+        //when
+        Long saveId = userService.join(user);
+        userService.delete(saveId);
+        //then
+        assertThat(userService.findOne(saveId)).isEmpty();
+    }
+
 
 }

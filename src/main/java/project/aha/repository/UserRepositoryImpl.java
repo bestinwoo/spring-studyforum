@@ -3,13 +3,12 @@ package project.aha.repository;
 import org.springframework.stereotype.Repository;
 import project.aha.domain.User;
 
-import javax.persistence.EntityManager;
 import java.util.List;
 import java.util.Optional;
 
-@Repository
-public class UserRepositoryImpl implements UserRepository {
-    private final EntityManager em;
+
+public class UserRepositoryImpl   {
+   /* private final EntityManager em;
 
     public UserRepositoryImpl(EntityManager em) {
         this.em = em;
@@ -40,5 +39,5 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public List<User> findAll() {
         return em.createQuery("select u from user u", User.class).getResultList();
-    }
+    }*/
 }
