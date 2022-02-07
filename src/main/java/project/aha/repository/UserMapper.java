@@ -11,6 +11,7 @@ public interface UserMapper {
     Long save(User user);
     Optional<User> findById(Long id);
     Optional<User> findByEmail(String email);
+    Optional<User> findBySocialId(String socialId);
     List<User> findAll();
     int delete(Long id);
 }

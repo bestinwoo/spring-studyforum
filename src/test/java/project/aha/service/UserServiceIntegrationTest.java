@@ -1,12 +1,13 @@
 package project.aha.service;
 
-import org.assertj.core.api.Assertions;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
+import project.aha.domain.MemberProvider;
 import project.aha.domain.User;
-import project.aha.repository.UserRepository;
+
 
 import java.time.LocalDateTime;
 
@@ -20,11 +21,12 @@ class UserServiceIntegrationTest {
     @Test
     void 회원가입() {
         //given
-        User user = new User();
+        User user = User.builder().build();
 
         user.setEmail("bestinwoo@gmail.com");
         user.setNickname("bestinu");
         user.setPassword("1111");
+        user.setMemberProvider(MemberProvider.GENERAL);
         user.setRegisterDate(LocalDateTime.now());
 
         //when
@@ -39,16 +41,18 @@ class UserServiceIntegrationTest {
     @Test
     void 이메일_중복_체크() {
         //given
-        User user1 = new User();
+        User user1 = User.builder().build();
         user1.setEmail("test");
         user1.setNickname("test");
         user1.setPassword("1111");
+        user1.setMemberProvider(MemberProvider.GENERAL);
         user1.setRegisterDate(LocalDateTime.now());
 
-        User user2 = new User();
+        User user2 = User.builder().build();
         user2.setEmail("test");
         user2.setNickname("test");
         user2.setPassword("1111");
+        user2.setMemberProvider(MemberProvider.GENERAL);
         user2.setRegisterDate(LocalDateTime.now());
 
         //when
@@ -61,11 +65,12 @@ class UserServiceIntegrationTest {
     @Test
     void 회원_삭제() {
         //given
-        User user = new User();
+        User user = User.builder().build();
 
         user.setEmail("bestinwoo@gmail.com");
         user.setNickname("bestinu");
         user.setPassword("1111");
+        user.setMemberProvider(MemberProvider.GENERAL);
         user.setRegisterDate(LocalDateTime.now());
         //when
         Long saveId = userService.join(user);

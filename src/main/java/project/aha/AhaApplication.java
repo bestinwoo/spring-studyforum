@@ -10,8 +10,6 @@ public class AhaApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(AhaApplication.class, args);
-
-
 	}
 
 }

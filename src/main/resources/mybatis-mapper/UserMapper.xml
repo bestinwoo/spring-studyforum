@@ -18,12 +18,17 @@
         from user
     </select>
     <insert id="save" parameterType="User" useGeneratedKeys="true" keyProperty="id">
-        insert into user (email, nickname, password, phone, register_date)
-        values (#{email}, #{nickname}, #{password}, #{phone}, #{registerDate})
+        insert into user (email, nickname, password, phone, register_date, member_provider)
+        values (#{email}, #{nickname}, #{password}, #{phone}, #{registerDate}, #{memberProvider})
     </insert>
     <delete id="delete">
         delete from user
         where id = #{id}
     </delete>
+    <select id="findBySocialId" resultType="User">
+        SELECT *
+        from user
+        where social_id = #{social_id}
+    </select>
 
 </mapper>
