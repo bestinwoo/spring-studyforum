@@ -16,7 +16,7 @@ public class User {
     private String phone;
     private LocalDateTime registerDate;
     private LocalDateTime leaveDate;
-    private Long roleID;
+    private Long roleId;
     private MemberProvider memberProvider;
     private String profileImagePath;
 }

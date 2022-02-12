@@ -30,7 +30,7 @@ public class ClientKakao implements ClientProxy{
                 .nickname(kaKaoUserResponse.getProperties().getNickname())
                 .email(kaKaoUserResponse.getKakaoAccount().getEmail())
                 .memberProvider(MemberProvider.KAKAO)
-                .roleID(1L)
+                .roleId(2L)
                 .profileImagePath(kaKaoUserResponse.getProperties().getProfileImage())
                 .build();
 

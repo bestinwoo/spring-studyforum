@@ -4,13 +4,13 @@ public enum Role {
     ADMIN{
         @Override
         public String toString() {
-            return "A";
+            return "ROLE_ADMIN";
         }
     },
     MEMBER {
         @Override
         public String toString() {
-            return "M";
+            return "ROLE_USER";
         }
     }
 }
