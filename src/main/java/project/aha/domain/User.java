@@ -13,7 +13,7 @@ public class User {
     private String nickname;
     private String socialId;
     private String password;
-    private String phone;
+    private String address;
     private LocalDateTime registerDate;
     private LocalDateTime leaveDate;
     private Long roleId;

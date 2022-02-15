@@ -18,8 +18,8 @@
         from user
     </select>
     <insert id="save" parameterType="User" useGeneratedKeys="true" keyProperty="id">
-        insert into user (email, nickname, role_id, password, phone, register_date, member_provider)
-        values (#{email}, #{nickname}, #{roleId}, #{password}, #{phone}, #{registerDate}, #{memberProvider})
+        insert into user (email, nickname, role_id, password, address, member_provider)
+        values (#{email}, #{nickname}, #{roleId}, #{password}, #{address}, #{memberProvider})
     </insert>
     <delete id="delete">
         delete from user
