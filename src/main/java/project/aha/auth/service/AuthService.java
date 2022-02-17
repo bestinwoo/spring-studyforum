@@ -15,6 +15,8 @@ import project.aha.auth.repository.RefreshTokenMapper;
 import project.aha.domain.User;
 import project.aha.repository.UserMapper;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class AuthService {
@@ -43,6 +45,8 @@ public class AuthService {
         });
     }
 
+
+
     @Transactional
     public TokenDto login(AuthRequest authRequest) {
         UsernamePasswordAuthenticationToken authenticationToken = authRequest.toAuthentication();
@@ -56,7 +60,9 @@ public class AuthService {
                 .token(tokenDto.getRefreshToken())
                 .build();
 
-        refreshTokenMapper.save(refreshToken);
+        Optional<RefreshToken> oldRefreshToken = refreshTokenMapper.findByEmail(authRequest.getEmail());
+
+        oldRefreshToken.ifPresentOrElse(m -> refreshTokenMapper.update(refreshToken), () -> refreshTokenMapper.save(refreshToken));
 
         return tokenDto;
     }
