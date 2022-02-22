@@ -1,7 +1,7 @@
-package project.aha.repository;
+package project.aha.user.repository;
 
 import org.apache.ibatis.annotations.Mapper;
-import project.aha.domain.User;
+import project.aha.user.domain.User;
 
 import java.util.List;
 import java.util.Optional;

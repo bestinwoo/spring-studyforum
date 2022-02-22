@@ -1,28 +1,29 @@
 package project.aha.board.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import project.aha.board.domain.Post;
 
 import java.time.LocalDateTime;
 
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
+@Setter
 public class PostDto {
     private String content;
     private String title;
     private Long userId;
     private Long boardId;
+    private String writer;
 
-    public Post toPost(PostDto postDto) {
+    public Post toPost() {
         return Post.builder()
                 .title(title)
                 .content(content)
                 .userId(userId)
                 .boardId(boardId)
+                .writer(writer)
                 .build();
     }
+
 
 }

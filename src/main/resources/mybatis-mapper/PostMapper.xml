@@ -8,13 +8,14 @@
         from post
         where id= #{id}
     </select>
-    <select id="findAll" resultType="Post">
-        SELECT id, title, user_id, write_date, views
+    <select id="findByBoardId" resultType="Post">
+        SELECT *
         from post
+        where board_id= #{boardId}
     </select>
     <insert id="save" parameterType="Post" useGeneratedKeys="true" keyProperty="id">
         insert into post (content, title, user_id, board_id)
-        values (#{content}, #{title}, #{user_id}, #{board_id})
+        values (#{content}, #{title}, #{userId}, #{boardId})
     </insert>
     <delete id="delete">
         delete from post

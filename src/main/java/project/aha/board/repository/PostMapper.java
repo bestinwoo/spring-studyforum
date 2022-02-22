@@ -12,5 +12,5 @@ public interface PostMapper
     Long delete(Long id);
     Long update(Post post);
     Post findById(Long id);
-    List<Post> findAll();
+    List<Post> findByBoardId(Long boardId);
 }

@@ -1,4 +1,4 @@
-package project.aha.domain;
+package project.aha.user.domain;
 
 public enum Role {
     ADMIN{

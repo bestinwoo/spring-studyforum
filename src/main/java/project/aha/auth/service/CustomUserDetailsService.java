@@ -7,9 +7,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import project.aha.domain.Role;
-import project.aha.domain.User;
-import project.aha.repository.UserMapper;
+import project.aha.user.domain.Role;
+import project.aha.user.domain.User;
+import project.aha.user.repository.UserMapper;
 
 import java.util.Collections;
 
@@ -34,7 +34,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         GrantedAuthority grantedAuthority = new SimpleGrantedAuthority(role);
 
         return new org.springframework.security.core.userdetails.User(
-                String.valueOf(user.getEmail()),
+                String.valueOf(user.getId()),
                 user.getPassword(),
                 Collections.singleton(grantedAuthority)
         );

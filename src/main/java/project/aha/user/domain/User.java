@@ -1,11 +1,13 @@
-package project.aha.domain;
+package project.aha.user.domain;
 
 import lombok.*;
 
 
 import java.time.LocalDateTime;
 
-@Data
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
 public class User {
     private Long id;

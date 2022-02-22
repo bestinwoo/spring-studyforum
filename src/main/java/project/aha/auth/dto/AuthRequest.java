@@ -5,8 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import project.aha.domain.MemberProvider;
-import project.aha.domain.User;
+import project.aha.user.domain.MemberProvider;
+import project.aha.user.domain.User;
 
 @Getter
 @AllArgsConstructor

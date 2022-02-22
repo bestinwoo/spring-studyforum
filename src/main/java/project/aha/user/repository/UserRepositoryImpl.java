@@ -1,10 +1,4 @@
-package project.aha.repository;
-
-import org.springframework.stereotype.Repository;
-import project.aha.domain.User;
-
-import java.util.List;
-import java.util.Optional;
+package project.aha.user.repository;
 
 
 public class UserRepositoryImpl   {

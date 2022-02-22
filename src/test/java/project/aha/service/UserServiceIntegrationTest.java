@@ -5,8 +5,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
-import project.aha.domain.MemberProvider;
-import project.aha.domain.User;
+import project.aha.user.domain.MemberProvider;
+import project.aha.user.domain.User;
+import project.aha.user.service.UserService;
 
 
 import java.time.LocalDateTime;
@@ -16,7 +17,8 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 @Transactional
 class UserServiceIntegrationTest {
-    @Autowired UserService userService;
+    @Autowired
+    UserService userService;
 
     @Test
     void 회원가입() {

@@ -1,10 +1,13 @@
 package project.aha.auth.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import project.aha.domain.User;
+import lombok.NoArgsConstructor;
+import project.aha.user.domain.User;
 
-@Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Builder
 public class AuthResponse {
     private String email;

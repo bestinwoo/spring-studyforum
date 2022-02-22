@@ -1,7 +1,6 @@
 package project.aha.auth.service;
 
 import lombok.RequiredArgsConstructor;
-import org.apache.el.parser.Token;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
@@ -12,8 +11,8 @@ import project.aha.auth.domain.RefreshToken;
 import project.aha.auth.dto.*;
 import project.aha.auth.jwt.TokenProvider;
 import project.aha.auth.repository.RefreshTokenMapper;
-import project.aha.domain.User;
-import project.aha.repository.UserMapper;
+import project.aha.user.domain.User;
+import project.aha.user.repository.UserMapper;
 
 import java.util.Optional;
 
