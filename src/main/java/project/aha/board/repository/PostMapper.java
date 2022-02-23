@@ -2,6 +2,7 @@ package project.aha.board.repository;
 
 import org.apache.ibatis.annotations.Mapper;
 import project.aha.board.domain.Post;
+import project.aha.board.domain.Board;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,4 +15,5 @@ public interface PostMapper
     Long update(Post post);
     Optional<Post> findById(Long id);
     List<Post> findByBoardId(Long boardId);
+    List<Board> findBoardAll();
 }

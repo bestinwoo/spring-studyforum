@@ -1,10 +1,12 @@
 package project.aha.board.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import project.aha.auth.jwt.SecurityUtil;
+import project.aha.board.domain.Board;
 import project.aha.board.dto.PostDto;
 import project.aha.board.dto.PostResponse;
 import project.aha.board.service.PostService;
@@ -18,11 +20,11 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/post")
+@RequestMapping()
 public class PostController {
     private final PostService postService;
 
-    @PostMapping()
+    @PostMapping("/post")
     public ResponseEntity<BasicResponse> writePost(@RequestBody PostDto postDto) {
         if(postService.writePost(postDto) == 0) {
             return ResponseEntity.notFound().build();
@@ -30,7 +32,7 @@ public class PostController {
         return ResponseEntity.status(HttpStatus.CREATED).body(new Result<>("게시글 생성 완료"));
     }
 
-    @PatchMapping("/{postId}")
+    @PatchMapping("/post/{postId}")
     public ResponseEntity<BasicResponse> modifyPost(@PathVariable Long postId, @RequestBody PostDto postDto) {
         if(!validateUser(postId)) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new ErrorResponse("작성자만 게시글을 삭제할 수 있습니다.", "401"));
@@ -43,7 +45,7 @@ public class PostController {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/{boardId}")
+    @GetMapping("/post/{boardId}")
     public ResponseEntity<BasicResponse> getPostList(@PathVariable Long boardId) {
         List<PostResponse> body = postService.findPostList(boardId);
 
@@ -54,12 +56,12 @@ public class PostController {
         return ResponseEntity.ok(new Result<>(body));
     }
 
-    @GetMapping("/{boardId}/{postId}")
+    @GetMapping("/post/{boardId}/{postId}")
     public ResponseEntity<BasicResponse> getPostDetail(@PathVariable Long boardId, @PathVariable Long postId) {
         return ResponseEntity.ok(new Result<>(postService.postDetail(postId)));
     }
 
-    @DeleteMapping("/{postId}")
+    @DeleteMapping("/post/{postId}")
     public ResponseEntity<BasicResponse> deletePost(@PathVariable Long postId) { //TODO : 관리자는 자기 글 아니어도 삭제할 수 있게 수정 필요
         if(!validateUser(postId)) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new ErrorResponse("작성자만 게시글을 삭제할 수 있습니다.", "401"));
@@ -69,6 +71,18 @@ public class PostController {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.noContent().build();
+    }
+
+    /**
+     * 게시판 리스트 API
+     */
+    @GetMapping("/board")
+    public ResponseEntity<BasicResponse> getBoardList() {
+        List<Board> boards = postService.findBoardList();
+        if(boards.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorResponse("게시판 목록이 없습니다."));
+        }
+        return ResponseEntity.ok(new Result<>(boards));
     }
 
     private boolean validateUser(Long postId) {

@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import project.aha.auth.jwt.SecurityUtil;
+import project.aha.board.domain.Board;
 import project.aha.board.domain.Post;
 import project.aha.board.dto.PostDto;
 import project.aha.board.dto.PostResponse;
@@ -48,6 +49,11 @@ public class PostService {
     @Transactional
     public Long deletePost(Long postId) {
         return postMapper.delete(postId);
+    }
+
+    @Transactional
+    public List<Board> findBoardList() {
+        return postMapper.findBoardAll();
     }
 
 

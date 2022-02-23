@@ -26,5 +26,9 @@
         set title=#{title}, content=#{content}, writer=#{writer}
         where id= #{id}
     </update>
+    <select id="findBoardAll" resultType="Board">
+        select *
+        from board;
+    </select>
 
 </mapper>
