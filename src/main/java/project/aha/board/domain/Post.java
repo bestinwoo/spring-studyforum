@@ -18,6 +18,7 @@ public class Post {
     private Long userId;
     private Long boardId;
     private Long views;
+    private Long replyCount;
     private LocalDateTime writeDate;
     private String writer;
 }

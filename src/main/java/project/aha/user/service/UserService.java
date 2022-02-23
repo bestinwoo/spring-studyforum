@@ -23,16 +23,6 @@ public class UserService {
                 .orElseThrow(() -> new IllegalStateException("로그인 유저 정보가 없습니다."));
     }
 
-    /**
-     * 이메일 중복 체크
-     */
-    @Transactional(readOnly = true)
-    private void validateDuplicateUser(User user) {
-        userMapper.findByEmail(user.getEmail()).ifPresent(m -> {
-            throw new IllegalStateException("이메일 중복");
-        });
-    }
-
     public List<User> findUsers() {
         return userMapper.findAll();
     }

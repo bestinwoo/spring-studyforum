@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import project.aha.auth.jwt.SecurityUtil;
+import project.aha.board.domain.Post;
 import project.aha.board.dto.PostDto;
 import project.aha.board.dto.PostResponse;
 import project.aha.board.repository.PostMapper;
@@ -18,12 +19,19 @@ public class PostService {
     private final PostMapper postMapper;
 
     @Transactional
-    public HttpStatus writePost(PostDto postDto) { // TODO: return 어떤걸로 줄지 정해야함
+    public Long writePost(PostDto postDto) {
         Long userId = SecurityUtil.getCurrentMemberId();
         postDto.setUserId(userId); // dto에 넣어놓고 여기와서 set해주는거 말고 더 좋은 방법이 있을 것 같음
 
-        postMapper.save(postDto.toPost());
-        return HttpStatus.OK;
+        return postMapper.save(postDto.toPost());
+    }
+
+    @Transactional
+    public Long modifyPost(Long postId, PostDto postDto) {
+        Long userId = SecurityUtil.getCurrentMemberId();
+        postDto.setUserId(userId); // dto에 넣어놓고 여기와서 set해주는거 말고 더 좋은 방법이 있을 것 같음
+        postDto.setId(postId);
+        return postMapper.update(postDto.toPost());
     }
 
     @Transactional(readOnly = true)
@@ -31,6 +39,17 @@ public class PostService {
         List<PostResponse> list = postMapper.findByBoardId(boardId).stream().map(PostResponse::of).collect(Collectors.toList());
         return list;
     }
+
+    @Transactional(readOnly = true)
+    public PostResponse postDetail(Long postId) {
+       return postMapper.findById(postId).map(PostResponse::of).orElseThrow(IllegalStateException::new);
+    }
+
+    @Transactional
+    public Long deletePost(Long postId) {
+        return postMapper.delete(postId);
+    }
+
 
 
 

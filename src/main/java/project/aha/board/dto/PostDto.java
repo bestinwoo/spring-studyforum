@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Setter
 public class PostDto {
+    private Long id;
     private String content;
     private String title;
     private Long userId;
@@ -17,6 +18,7 @@ public class PostDto {
 
     public Post toPost() {
         return Post.builder()
+                .id(id)
                 .title(title)
                 .content(content)
                 .userId(userId)

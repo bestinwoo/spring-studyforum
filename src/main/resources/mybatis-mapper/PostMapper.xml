@@ -9,21 +9,22 @@
         where id= #{id}
     </select>
     <select id="findByBoardId" resultType="Post">
-        SELECT *
+        SELECT title, writer, views, write_date, reply_count
         from post
         where board_id= #{boardId}
     </select>
     <insert id="save" parameterType="Post" useGeneratedKeys="true" keyProperty="id">
-        insert into post (content, title, user_id, board_id)
-        values (#{content}, #{title}, #{userId}, #{boardId})
+        insert into post (content, title, user_id, board_id, writer)
+        values (#{content}, #{title}, #{userId}, #{boardId}, #{writer})
     </insert>
     <delete id="delete">
         delete from post
         where id = #{id}
     </delete>
-    <update id="update">
-        update into post
-        set title=#{title}, content=#{content}
+    <update id="update" parameterType="Post">
+        update post
+        set title=#{title}, content=#{content}, writer=#{writer}
+        where id= #{id}
     </update>
 
 </mapper>

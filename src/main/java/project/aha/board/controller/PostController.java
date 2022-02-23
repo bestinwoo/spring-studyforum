@@ -1,20 +1,20 @@
 package project.aha.board.controller;
 
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
-import org.apache.coyote.Response;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import project.aha.auth.jwt.SecurityUtil;
 import project.aha.board.dto.PostDto;
 import project.aha.board.dto.PostResponse;
 import project.aha.board.service.PostService;
+import project.aha.common.BasicResponse;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashMap;
+import project.aha.common.ErrorResponse;
+import project.aha.common.Result;
+
 import java.util.List;
-import java.util.Map;
-import java.util.logging.Logger;
+
 
 @RestController
 @RequiredArgsConstructor
@@ -23,43 +23,63 @@ public class PostController {
     private final PostService postService;
 
     @PostMapping()
-    public ResponseEntity writePost(@RequestBody PostDto postDto) {
-        return ResponseEntity.ok(postService.writePost(postDto));
+    public ResponseEntity<BasicResponse> writePost(@RequestBody PostDto postDto) {
+        if(postService.writePost(postDto) == 0) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.status(HttpStatus.CREATED).body(new Result<>("게시글 생성 완료"));
     }
 
-    @GetMapping()
-    public ResponseEntity<Map<String, Object>> getPostList(Long boardId) {
+    @PatchMapping("/{postId}")
+    public ResponseEntity<BasicResponse> modifyPost(@PathVariable Long postId, @RequestBody PostDto postDto) {
+        if(!validateUser(postId)) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new ErrorResponse("작성자만 게시글을 삭제할 수 있습니다.", "401"));
+        }
+
+        if(postService.modifyPost(postId, postDto) == 0) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/{boardId}")
+    public ResponseEntity<BasicResponse> getPostList(@PathVariable Long boardId) {
         List<PostResponse> body = postService.findPostList(boardId);
 
         if(body.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorResponse("해당 게시판에 게시글이 없습니다."));
+        }
+
+        return ResponseEntity.ok(new Result<>(body));
+    }
+
+    @GetMapping("/{boardId}/{postId}")
+    public ResponseEntity<BasicResponse> getPostDetail(@PathVariable Long boardId, @PathVariable Long postId) {
+        return ResponseEntity.ok(new Result<>(postService.postDetail(postId)));
+    }
+
+    @DeleteMapping("/{postId}")
+    public ResponseEntity<BasicResponse> deletePost(@PathVariable Long postId) { //TODO : 관리자는 자기 글 아니어도 삭제할 수 있게 수정 필요
+        if(!validateUser(postId)) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new ErrorResponse("작성자만 게시글을 삭제할 수 있습니다.", "401"));
+        }
+
+        if(postService.deletePost(postId) == 0) {
             return ResponseEntity.notFound().build();
         }
-        Map<String, Object> result = new HashMap<>();
-        result.put("data", body);
-        result.put("count", body.size());
-
-        return ResponseEntity.ok().body(result);
+        return ResponseEntity.noContent().build();
     }
-//
-//    @GetMapping()
-//    public Map<String, Object> getPostList(Long boardId) {
-//        // List<PostResponse> body = postService.findPostList(boardId);
-//        List<PostResponse> body = new ArrayList<PostResponse>();
-//        for(int i =0; i < 5; i++) {
-//            PostResponse postResponse = PostResponse.builder()
-//                    .content("test")
-//                    .title("dsa")
-//                    .writeDate(LocalDateTime.now())
-//                    .writer("inu")
-//                    .build();
-//            body.add(postResponse);
-//        }
-//
-//        Map<String, Object> result = new HashMap<>();
-//        result.put("data", body);
-//        result.put("count", body.size());
-//        System.out.println(result);
-//        return result;
-//    }
+
+    private boolean validateUser(Long postId) {
+        Long currentUserId = SecurityUtil.getCurrentMemberId();
+        Long writerId = postService.postDetail(postId).getUserId();
+        if(currentUserId != writerId) {
+            return false;
+        }
+        return true;
+    }
+
+
 
 }

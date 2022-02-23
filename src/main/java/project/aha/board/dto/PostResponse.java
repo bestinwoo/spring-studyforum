@@ -18,6 +18,9 @@ public class PostResponse {
     private String content;
     private String title;
     private String writer;
+    private Long views;
+    private Long replyCount;
+    private Long userId;
     private LocalDateTime writeDate;
 
     public static PostResponse of(Post post) {
@@ -26,6 +29,9 @@ public class PostResponse {
                 .title(post.getTitle())
                 .writer(post.getWriter())
                 .writeDate(post.getWriteDate())
+                .userId(post.getUserId())
+                .replyCount(post.getReplyCount())
+                .views(post.getViews())
                 .build();
     }
 }
