@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="project.aha.reply.repository.ReplyMapper">
+    <select id="findByPostId" resultType="Reply">
+        SELECT *
+        FROM reply
+        WHERE post_id=#{postId}
+    </select>
+    <insert id="save" parameterType="Reply">
+        INSERT INTO reply(post_id, comment, user_id, writer)
+        VALUES (#{postId}, #{comment}, #{userId}, #{writer})
+    </insert>
+    <update id="update" parameterType="Reply">
+        UPDATE reply
+        SET comment=#{comment}
+        WHERE id=#{id}
+    </update>
+    <delete id="delete">
+        DELETE FROM reply
+        WHERE id=#{id}
+    </delete>
+
+</mapper>

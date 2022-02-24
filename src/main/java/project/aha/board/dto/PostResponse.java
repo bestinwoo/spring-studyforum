@@ -15,6 +15,7 @@ import java.time.LocalDateTime;
 @Getter
 @Builder
 public class PostResponse {
+    private Long id;
     private String content;
     private String title;
     private String writer;
@@ -25,6 +26,7 @@ public class PostResponse {
 
     public static PostResponse of(Post post) {
         return PostResponse.builder()
+                .id(post.getId())
                 .content(post.getContent())
                 .title(post.getTitle())
                 .writer(post.getWriter())

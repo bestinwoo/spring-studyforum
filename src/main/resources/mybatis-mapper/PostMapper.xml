@@ -9,7 +9,7 @@
         where id= #{id}
     </select>
     <select id="findByBoardId" resultType="Post">
-        SELECT title, writer, views, write_date, reply_count
+        SELECT id, title, writer, views, write_date, reply_count
         from post
         where board_id= #{boardId}
     </select>
@@ -25,6 +25,16 @@
         update post
         set title=#{title}, content=#{content}, writer=#{writer}
         where id= #{id}
+    </update>
+    <update id="increaseReply">
+        update post
+        set reply_count = reply_count + 1
+        where id= #{id}
+    </update>
+    <update id="decreaseReply">
+        update post
+        set reply_count = reply_count - 1
+        where id=#{id}
     </update>
     <select id="findBoardAll" resultType="Board">
         select *

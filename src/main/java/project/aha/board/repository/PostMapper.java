@@ -13,6 +13,8 @@ public interface PostMapper
     Long save(Post post);
     Long delete(Long id);
     Long update(Post post);
+    Long increaseReply(Long id);
+    Long decreaseReply(Long id);
     Optional<Post> findById(Long id);
     List<Post> findByBoardId(Long boardId);
     List<Board> findBoardAll();
