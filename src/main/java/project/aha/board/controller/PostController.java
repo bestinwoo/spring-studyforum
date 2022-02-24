@@ -9,6 +9,7 @@ import project.aha.auth.jwt.SecurityUtil;
 import project.aha.board.domain.Board;
 import project.aha.board.dto.PostDto;
 import project.aha.board.dto.PostResponse;
+import project.aha.board.repository.PostMapper;
 import project.aha.board.service.PostService;
 import project.aha.common.BasicResponse;
 
@@ -58,6 +59,9 @@ public class PostController {
 
     @GetMapping("/post/{boardId}/{postId}")
     public ResponseEntity<BasicResponse> getPostDetail(@PathVariable Long boardId, @PathVariable Long postId) {
+        if(postService.increaseViews(postId) == 0) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorResponse("게시글을 찾을 수 없습니다."));
+        }
         return ResponseEntity.ok(new Result<>(postService.postDetail(postId)));
     }
 

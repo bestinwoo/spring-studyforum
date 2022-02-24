@@ -37,4 +37,6 @@ public class ReplyService {
     public List<Reply> findReplyList(Long postId) {
         return replyMapper.findByPostId(postId);
     }
+
+
 }

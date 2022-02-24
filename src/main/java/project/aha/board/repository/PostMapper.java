@@ -15,6 +15,7 @@ public interface PostMapper
     Long update(Post post);
     Long increaseReply(Long id);
     Long decreaseReply(Long id);
+    Long increaseViews(Long id);
     Optional<Post> findById(Long id);
     List<Post> findByBoardId(Long boardId);
     List<Board> findBoardAll();

@@ -56,7 +56,10 @@ public class PostService {
         return postMapper.findBoardAll();
     }
 
-
+    @Transactional
+    public Long increaseViews(Long id) {
+        return postMapper.increaseViews(id);
+    }
 
 
 }

@@ -36,6 +36,11 @@
         set reply_count = reply_count - 1
         where id=#{id}
     </update>
+    <update id="increaseViews">
+        update post
+        set views = views + 1
+        where id=#{id}
+    </update>
     <select id="findBoardAll" resultType="Board">
         select *
         from board;
