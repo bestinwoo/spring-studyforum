@@ -25,7 +25,7 @@ public class UserResponseDto {
 			.loginId(user.getLoginId())
 			.registerDate(user.getRegisterDate())
 			.role(Role.MEMBER)
-			.profileImagePath(user.getProfileImagePath())
+			.profileImagePath(user.getProfileImgPath())
 			.build();
 	}
 }

@@ -12,24 +12,24 @@ import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 import project.aha.user.domain.Role;
 import project.aha.user.domain.User;
-import project.aha.user.repository.UserMapper;
+import project.aha.user.repository.UserRepository;
 
 @Service
 @RequiredArgsConstructor
 public class CustomUserDetailsService implements UserDetailsService {
-	private final UserMapper userMapper;
+	private final UserRepository userRepository;
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		return userMapper.findByLoginId(username).map(this::createUserDetails)
+		return userRepository.findByLoginId(username).map(this::createUserDetails)
 			.orElseThrow(() -> new UsernameNotFoundException(username + "는 데이터베이스에 없는 데이터입니다."));
 	}
 
 	private UserDetails createUserDetails(User user) {
 		String role = "ROLE_USER";
-		if (user.getRoleId() == 1) {
+		if (user.getRole().getId() == 1) {
 			role = Role.ADMIN.toString();
-		} else if (user.getRoleId() == 2) {
+		} else if (user.getRole().getId() == 2) {
 			role = Role.MEMBER.toString();
 		}
 		GrantedAuthority grantedAuthority = new SimpleGrantedAuthority(role);
