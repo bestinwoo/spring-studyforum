@@ -18,23 +18,24 @@ import project.aha.auth.dto.TokenRequestDto;
 import project.aha.auth.jwt.TokenProvider;
 import project.aha.auth.repository.RefreshTokenMapper;
 import project.aha.user.domain.User;
-import project.aha.user.repository.UserMapper;
+import project.aha.user.repository.UserRepository;
 
 @Service
 @RequiredArgsConstructor
 public class AuthService {
 	private final TokenProvider tokenProvider;
 	private final AuthenticationManagerBuilder authenticationManagerBuilder;
-	private final UserMapper userMapper;
+
+	private final UserRepository userRepository;
 	private final RefreshTokenMapper refreshTokenMapper;
 	private final PasswordEncoder passwordEncoder;
 
-	@Transactional
+	@Transactional //TODO: 시간 이상하게 들어감 ㅠㅠ
 	public AuthResponse signup(AuthRequest authRequest) throws IllegalStateException {
 		User user = authRequest.toUser(passwordEncoder);
 		validateDuplicateUser(user);
 
-		userMapper.save(user);
+		userRepository.save(user);
 		return AuthResponse.of(user);
 	}
 
@@ -43,7 +44,7 @@ public class AuthService {
 	 */
 	@Transactional
 	public void validateDuplicateUser(User user) {
-		userMapper.findByLoginId(user.getLoginId()).ifPresent(m -> {
+		userRepository.findByLoginId(user.getLoginId()).ifPresent(m -> {
 			throw new IllegalStateException("이미 가입한 유저입니다.");
 		});
 	}
@@ -60,7 +61,7 @@ public class AuthService {
 			.email(authentication.getName())
 			.token(tokenDto.getRefreshToken())
 			.build();
-
+		//TODO: RefreshToken to Redis
 		Optional<RefreshToken> oldRefreshToken = refreshTokenMapper.findByEmail(authRequest.getId());
 
 		oldRefreshToken.ifPresentOrElse(m -> refreshTokenMapper.update(refreshToken),
