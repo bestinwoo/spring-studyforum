@@ -2,18 +2,18 @@ package project.aha.auth.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import project.aha.user.domain.User;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@Getter
 public class AuthResponse {
-    private String email;
+	private String loginId;
 
-    public static AuthResponse of(User user) {
-        return new AuthResponse(user.getEmail());
-    }
-
+	public static AuthResponse of(User user) {
+		return new AuthResponse(user.getLoginId());
+	}
 }

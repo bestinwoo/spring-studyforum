@@ -1,34 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="project.aha.user.repository.UserMapper">
     <select id="findById" resultType="User">
-        SELECT email, nickname, address, role_id, register_date, profile_img_path
+        SELECT login_id, role_id, register_date, profile_img_path
         from user
-        where id= #{id}
+        where id = #{id}
     </select>
-    <select id="findByEmail" resultType="User">
+    <select id="findByLoginId" resultType="User">
         SELECT *
         from user
-        where email= #{email}
+        where login_id = #{id}
     </select>
     <select id="findAll" resultType="User">
         SELECT *
         from user
     </select>
     <insert id="save" parameterType="User" useGeneratedKeys="true" keyProperty="id">
-        insert into user (email, nickname, role_id, password, address, member_provider)
-        values (#{email}, #{nickname}, #{roleId}, #{password}, #{address}, #{memberProvider})
+        insert into user (login_id, role_id, password)
+        values (#{loginId}, #{roleId}, #{password})
     </insert>
     <delete id="delete">
-        delete from user
+        delete
+        from user
         where id = #{id}
     </delete>
-    <select id="findBySocialId" resultType="User">
-        SELECT *
-        from user
-        where social_id = #{social_id}
-    </select>
 
 </mapper>

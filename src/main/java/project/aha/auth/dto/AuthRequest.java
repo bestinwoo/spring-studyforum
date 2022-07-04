@@ -1,30 +1,29 @@
 package project.aha.auth.dto;
 
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import project.aha.user.domain.MemberProvider;
 import project.aha.user.domain.User;
 
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
 public class AuthRequest {
-    private String email;
-    private String password;
+	private String id;
+	private String password;
 
-    public User toUser(PasswordEncoder passwordEncoder) {
-        return User.builder()
-                .email(email)
-                .password(passwordEncoder.encode(password))
-                .memberProvider(MemberProvider.GENERAL)
-                .roleId(2L)
-                .build();
-    }
+	public User toUser(PasswordEncoder passwordEncoder) {
+		return User.builder()
+			.loginId(id)
+			.password(passwordEncoder.encode(password))
+			.roleId(2L)
+			.build();
+	}
 
-    public UsernamePasswordAuthenticationToken toAuthentication() {
-        return new UsernamePasswordAuthenticationToken(email, password);
-    }
+	public UsernamePasswordAuthenticationToken toAuthentication() {
+		return new UsernamePasswordAuthenticationToken(id, password);
+	}
 }

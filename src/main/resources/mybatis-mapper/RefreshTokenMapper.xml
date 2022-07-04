@@ -6,7 +6,7 @@
     <select id="findByEmail" resultType="RefreshToken">
         SELECT *
         FROM refresh_token
-        WHERE email= #{email}
+        WHERE email = #{email}
     </select>
     <insert id="save" parameterType="RefreshToken" keyProperty="email">
         INSERT INTO refresh_token(email, token)
@@ -15,6 +15,6 @@
     <update id="update" parameterType="RefreshToken">
         UPDATE refresh_token
         SET token= #{token}
-        WHERE email= #{email}
+        WHERE email = #{email}
     </update>
 </mapper>

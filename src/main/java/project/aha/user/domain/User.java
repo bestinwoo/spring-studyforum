@@ -1,26 +1,24 @@
 package project.aha.user.domain;
 
-import lombok.*;
-
-
 import java.time.LocalDateTime;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 public class User {
-    private Long id;
-    private String email;
-    private String nickname;
-    private String socialId;
-    private String password;
-    private String address;
-    private LocalDateTime registerDate;
-    private LocalDateTime leaveDate;
-    private Long roleId;
-    private MemberProvider memberProvider;
-    private String profileImagePath;
+	private Long id;
+	private String loginId;
+	private String password;
+	private LocalDateTime registerDate;
+	private LocalDateTime leaveDate;
+	private Long roleId;
+	private String profileImagePath;
 }
 
 

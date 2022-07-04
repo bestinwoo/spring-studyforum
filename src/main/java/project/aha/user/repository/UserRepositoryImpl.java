@@ -1,7 +1,6 @@
 package project.aha.user.repository;
 
-
-public class UserRepositoryImpl   {
+public class UserRepositoryImpl {
    /* private final EntityManager em;
 
     public UserRepositoryImpl(EntityManager em) {

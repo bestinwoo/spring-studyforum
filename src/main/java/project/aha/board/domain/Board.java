@@ -4,6 +4,6 @@ import lombok.Getter;
 
 @Getter
 public class Board {
-    private Long id;
-    private String title;
+	private Long id;
+	private String title;
 }
