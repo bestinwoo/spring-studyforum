@@ -1,7 +1,6 @@
 package project.aha.auth.dto;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -15,14 +14,11 @@ import project.aha.user.domain.User;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class AuthRequest {
+public class AuthRequest { //TODO: 입력값 Valid
 	private String id;
 	private String password;
 
 	public User toUser(PasswordEncoder passwordEncoder) {
-		LocalDateTime now = LocalDateTime.now();
-		DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("");
-		String format = now.format(dateTimeFormatter);
 		return User.builder()
 			.loginId(id)
 			.password(passwordEncoder.encode(password))

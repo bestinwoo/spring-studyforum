@@ -30,10 +30,10 @@ public class AuthService {
 	private final RefreshTokenMapper refreshTokenMapper;
 	private final PasswordEncoder passwordEncoder;
 
-	@Transactional //TODO: 시간 이상하게 들어감 ㅠㅠ
+	@Transactional
 	public AuthResponse signup(AuthRequest authRequest) throws IllegalStateException {
 		User user = authRequest.toUser(passwordEncoder);
-		validateDuplicateUser(user);
+		validateDuplicateUser(user.getLoginId());
 
 		userRepository.save(user);
 		return AuthResponse.of(user);
@@ -43,8 +43,8 @@ public class AuthService {
 	 * 이메일 중복 체크
 	 */
 	@Transactional
-	public void validateDuplicateUser(User user) {
-		userRepository.findByLoginId(user.getLoginId()).ifPresent(m -> {
+	public void validateDuplicateUser(String loginId) {
+		userRepository.findByLoginId(loginId).ifPresent(m -> {
 			throw new IllegalStateException("이미 가입한 유저입니다.");
 		});
 	}

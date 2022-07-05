@@ -11,7 +11,7 @@ public class ErrorResponse implements BasicResponse {
 
 	public ErrorResponse(String errorMessage) {
 		this.errorMessage = errorMessage;
-		this.errorCode = "404";
+		this.errorCode = "400";
 	}
 
 	public ErrorResponse(String errorMessage, String errorCode) {
