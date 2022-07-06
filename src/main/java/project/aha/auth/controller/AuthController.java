@@ -36,6 +36,7 @@ public class AuthController {
 	@PostMapping("/signup")
 	public ResponseEntity<BasicResponse> signup(@Validated @RequestBody AuthRequest authRequest,
 		BindingResult bindingResult) {
+		
 		if (bindingResult.hasErrors()) {
 			List<String> errors = bindingResult.getAllErrors()
 				.stream()
