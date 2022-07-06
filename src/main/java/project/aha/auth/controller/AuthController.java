@@ -4,7 +4,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.context.support.DefaultMessageSourceResolvable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -36,7 +38,7 @@ public class AuthController {
 	@PostMapping("/signup")
 	public ResponseEntity<BasicResponse> signup(@Validated @RequestBody AuthRequest authRequest,
 		BindingResult bindingResult) {
-		
+
 		if (bindingResult.hasErrors()) {
 			List<String> errors = bindingResult.getAllErrors()
 				.stream()
@@ -70,6 +72,17 @@ public class AuthController {
 			return ResponseEntity.ok(new Result<>("가입 가능한 아이디입니다."));
 		} catch (IllegalStateException e) {
 			return ResponseEntity.badRequest().body(new ErrorResponse(e.getMessage()));
+		}
+	}
+
+	@PostMapping("/logout")
+	@PreAuthorize("isAuthenticated()")
+	public ResponseEntity<BasicResponse> logout() {
+		try {
+			authService.logout();
+			return ResponseEntity.ok(new Result<>("로그아웃이 완료되었습니다."));
+		} catch (SecurityException e) {
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new ErrorResponse(e.getMessage(), "401"));
 		}
 	}
 }

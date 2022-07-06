@@ -16,6 +16,7 @@ import project.aha.auth.dto.AuthRequest;
 import project.aha.auth.dto.AuthResponse;
 import project.aha.auth.dto.TokenDto;
 import project.aha.auth.dto.TokenRequestDto;
+import project.aha.auth.jwt.SecurityUtil;
 import project.aha.auth.jwt.TokenProvider;
 import project.aha.user.domain.User;
 import project.aha.user.repository.UserRepository;
@@ -82,5 +83,10 @@ public class AuthService {
 
 		redisTemplate.opsForValue().set(key, tokenDto.getRefreshToken());
 		return tokenDto;
+	}
+
+	@Transactional(rollbackFor = Exception.class)
+	public void logout() {
+		redisTemplate.delete("RefreshToken:" + SecurityUtil.getCurrentMemberId());
 	}
 }
