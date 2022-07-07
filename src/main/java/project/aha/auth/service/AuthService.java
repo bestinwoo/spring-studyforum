@@ -60,7 +60,8 @@ public class AuthService {
 		redisTemplate.opsForValue()
 			.set("RefreshToken:" + authentication.getName(), tokenDto.getRefreshToken(),
 				tokenDto.getRefreshTokenExpiresIn() - new Date().getTime(), TimeUnit.MILLISECONDS);
-
+		tokenDto.setLoginId(authRequest.getId());
+		tokenDto.setUserId(Long.parseLong(authentication.getName()));
 		return tokenDto;
 	}
 
