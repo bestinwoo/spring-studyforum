@@ -1,5 +1,7 @@
 package project.aha.auth;
 
+import static project.aha.common.ValidationGroups.*;
+
 import java.util.Set;
 
 import javax.validation.ConstraintViolation;
@@ -34,24 +36,38 @@ public class AuthDtoTest {
 	@Nested
 	@DisplayName("아이디 검증")
 	class IdTest {
-		@Test // TODO: validation 그룹화해서 테스트 분리하기
-		@DisplayName("아이디 형식이 맞지 않으면 에러 발생")
-		void id_pattern_validate_fail() {
+		@Test
+		@DisplayName("아이디가 빈 값이면 에러 발생")
+		void id_notblank_validation_fail() {
 			//given
-			AuthRequest authRequest = new AuthRequest("1aas", "123456789");
+			AuthRequest authRequest = new AuthRequest("", "123456789");
 			//when
-			Set<ConstraintViolation<AuthRequest>> violations = validator.validate(authRequest);
+			Set<ConstraintViolation<AuthRequest>> violations = validator.validate(authRequest,
+				NotEmptyGroup.class);
+			//then
+			Assertions.assertThat(violations).isNotEmpty();
+		}
+
+		@Test
+		@DisplayName("아이디 형식이 맞지 않으면 에러 발생")
+		void id_pattern_validation_fail() {
+			//given
+			AuthRequest authRequest = new AuthRequest("1a1as", "123456789");
+			//when
+			Set<ConstraintViolation<AuthRequest>> violations = validator.validate(authRequest,
+				PatternCheckGroup.class);
+			System.out.println(violations);
 			//then
 			Assertions.assertThat(violations).isNotEmpty();
 		}
 
 		@Test
 		@DisplayName("아이디 형식이 맞으면 성공")
-		void id_pattern_validate_success() {
+		void id_pattern_validation_success() {
 			//given
 			AuthRequest authRequest = new AuthRequest("fourword", "eightword");
 			//when
-			Set<ConstraintViolation<AuthRequest>> violations = validator.validate(authRequest);
+			Set<ConstraintViolation<AuthRequest>> violations = validator.validate(authRequest, PatternCheckGroup.class);
 			//then
 			Assertions.assertThat(violations).isEmpty();
 		}
@@ -62,7 +78,7 @@ public class AuthDtoTest {
 	class PasswordTest {
 		@Test
 		@DisplayName("패스워드가 8글자 이상일 경우 성공")
-		void password_validate_success() {
+		void password_validation_success() {
 			//given
 			AuthRequest authRequest = new AuthRequest("test", "12345678");
 			//when
@@ -73,7 +89,7 @@ public class AuthDtoTest {
 
 		@Test
 		@DisplayName("패스워드가 8글자 미만일 경우 실패")
-		void password_validate_fail() {
+		void password_validation_fail() {
 			//given
 			AuthRequest authRequest = new AuthRequest("test", "1234567");
 			//when

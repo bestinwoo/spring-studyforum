@@ -1,13 +1,8 @@
 package project.aha.auth.controller;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
-import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,6 +21,7 @@ import project.aha.auth.service.AuthService;
 import project.aha.common.BasicResponse;
 import project.aha.common.ErrorResponse;
 import project.aha.common.Result;
+import project.aha.common.ValidationSequence;
 
 @RestController
 @RequestMapping("/auth")
@@ -36,22 +32,13 @@ public class AuthController {
 	private final AuthService authService;
 
 	@PostMapping("/signup")
-	public ResponseEntity<BasicResponse> signup(@Validated @RequestBody AuthRequest authRequest,
-		BindingResult bindingResult) {
-
-		if (bindingResult.hasErrors()) {
-			List<String> errors = bindingResult.getAllErrors()
-				.stream()
-				.map(DefaultMessageSourceResolvable::getDefaultMessage)
-				.collect(Collectors.toList());
-			return ResponseEntity.badRequest().body(new ErrorResponse(errors, "400"));
-		} else {
-			try {
-				AuthResponse response = authService.signup(authRequest);
-				return ResponseEntity.ok(new Result<>(response));
-			} catch (IllegalStateException e) {
-				return ResponseEntity.badRequest().body(new ErrorResponse(e.getMessage()));
-			}
+	public ResponseEntity<BasicResponse> signup(
+		@Validated(ValidationSequence.class) @RequestBody AuthRequest authRequest) {
+		try {
+			AuthResponse response = authService.signup(authRequest);
+			return ResponseEntity.ok(new Result<>(response));
+		} catch (IllegalStateException e) {
+			return ResponseEntity.badRequest().body(new ErrorResponse(e.getMessage()));
 		}
 	}
 

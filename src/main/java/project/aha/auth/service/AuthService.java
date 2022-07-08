@@ -90,4 +90,5 @@ public class AuthService {
 	public void logout() {
 		redisTemplate.delete("RefreshToken:" + SecurityUtil.getCurrentMemberId());
 	}
+
 }

@@ -2,6 +2,7 @@ package project.aha.auth.dto;
 
 import java.time.LocalDateTime;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
@@ -11,6 +12,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import project.aha.common.ValidationGroups.NotEmptyGroup;
+import project.aha.common.ValidationGroups.PatternCheckGroup;
 import project.aha.user.domain.MemberRole;
 import project.aha.user.domain.User;
 
@@ -18,7 +21,8 @@ import project.aha.user.domain.User;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AuthRequest {
-	@Pattern(regexp = "^[a-zA-Z]+[a-zA-Z0-9_]{3,14}$", message = "아이디 형식이 틀립니다.")
+	@NotBlank(message = "아이디를 입력해주세요.", groups = NotEmptyGroup.class)
+	@Pattern(regexp = "^[a-zA-Z]+[a-zA-Z0-9_]{3,14}$", message = "아이디 형식이 틀립니다.", groups = PatternCheckGroup.class)
 	private String id;
 	@Size(message = "비밀번호는 8글자 이상, 20글자 이하입니다.", min = 8, max = 20)
 	private String password;
