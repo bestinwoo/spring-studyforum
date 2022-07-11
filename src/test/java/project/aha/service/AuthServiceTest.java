@@ -53,17 +53,23 @@ public class AuthServiceTest {
 			//then
 			assertThat(response.getLoginId()).isEqualTo(user.getLoginId());
 		}
-
-		// @Test
-		// @DisplayName("회원가입 실패")
-		// void failJoin() {
-		// 	//given
-		// 	when(userRepository.save(any(User.class))).thenThrow(new IllegalStateException(""));
-		// 	//when
-		// 	AuthResponse signup = authService.signup(authRequest);
-		// 	//then
-		// 	assertThat(signup).isNull();
-		// }
-
 	}
+
+	// @Nested
+	// @DisplayName("로그인")
+	// class Login {
+	// 	private AuthRequest authRequest;
+	//
+	// 	@BeforeEach
+	// 	void setup() {
+	// 		authRequest = new AuthRequest("test", "1234");
+	// 	}
+	//
+	// 	@Test
+	// 	@DisplayName("로그인 성공")
+	// 	void login_success() {
+	// 		User user = authRequest.toUser(encoder);
+	//
+	// 	}
+	// }
 }
