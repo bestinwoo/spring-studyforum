@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 import project.aha.auth.jwt.SecurityUtil;
-import project.aha.board.domain.Board;
 import project.aha.board.dto.PostDto;
 import project.aha.board.dto.PostResponse;
 import project.aha.board.service.PostService;
@@ -81,18 +80,6 @@ public class PostController {
 			return ResponseEntity.notFound().build();
 		}
 		return ResponseEntity.noContent().build();
-	}
-
-	/**
-	 * 게시판 리스트 API
-	 */
-	@GetMapping("/board")
-	public ResponseEntity<BasicResponse> getBoardList() {
-		List<Board> boards = postService.findBoardList();
-		if (boards.isEmpty()) {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorResponse("게시판 목록이 없습니다."));
-		}
-		return ResponseEntity.ok(new Result<>(boards));
 	}
 
 	private boolean validateUser(Long postId) {
