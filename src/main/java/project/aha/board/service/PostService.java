@@ -28,23 +28,25 @@ public class PostService {
 		postTagService.saveTags(savedPost, postDto.getTags());
 		Long postId = savedPost.getId();
 		if (file != null) {
-			saveImage(file, postId);
+			savedPost.setImage_path(saveImage(file, postId));
 		}
 		return postId;
 	}
 
 	// TODO: 공통 모듈로 빼기, png랑 jpg만 입력받게 하기
-	private void saveImage(MultipartFile multipartFile, Long postId) throws IOException {
+	private String saveImage(MultipartFile multipartFile, Long postId) throws IOException {
 		String absolutePath = new File("").getAbsolutePath() + "\\";
 		String path = "src/main/resources/images/post";
 		File file = new File(path);
 		if (!file.exists()) {
 			file.mkdirs();
 		}
-		String imagePath = path + "/" + "post-" + postId + ".png";
+		String fileName = "post-" + postId + ".png";
+		String imagePath = path + "/" + fileName;
 
 		file = new File(absolutePath + imagePath);
 		multipartFile.transferTo(file);
+		return fileName;
 	}
 
 	// @Transactional

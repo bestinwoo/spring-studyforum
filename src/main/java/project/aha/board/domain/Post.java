@@ -42,6 +42,7 @@ public class Post {
 	private Long views;
 	private Long replyCount;
 	private LocalDateTime writeDate;
+	private String imagePath;
 
 	public void setTags(Set<PostTag> tags) {
 		this.tags = tags;
@@ -50,4 +51,7 @@ public class Post {
 		}
 	}
 
+	public void setImage_path(String imagePath) {
+		this.imagePath = imagePath;
+	}
 }
