@@ -1,7 +1,11 @@
 package project.aha.board.service;
 
+import java.io.File;
+import java.io.IOException;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import lombok.RequiredArgsConstructor;
 import project.aha.auth.jwt.SecurityUtil;
@@ -17,12 +21,30 @@ public class PostService {
 	private final PostRepository postRepository;
 	private final PostTagService postTagService;
 
-	@Transactional
-	public Long writePost(PostDto.Request postDto) {
+	@Transactional(rollbackFor = Exception.class)
+	public Long writePost(PostDto.Request postDto, MultipartFile file) throws IOException {
 		Long userId = SecurityUtil.getCurrentMemberId();
 		Post savedPost = postRepository.save(postDto.toPost(userId));
 		postTagService.saveTags(savedPost, postDto.getTags());
-		return savedPost.getId();
+		Long postId = savedPost.getId();
+		if (file != null) {
+			saveImage(file, postId);
+		}
+		return postId;
+	}
+
+	// TODO: 공통 모듈로 빼기, png랑 jpg만 입력받게 하기
+	private void saveImage(MultipartFile multipartFile, Long postId) throws IOException {
+		String absolutePath = new File("").getAbsolutePath() + "\\";
+		String path = "src/main/resources/images/post";
+		File file = new File(path);
+		if (!file.exists()) {
+			file.mkdirs();
+		}
+		String imagePath = path + "/" + "post-" + postId + ".png";
+
+		file = new File(absolutePath + imagePath);
+		multipartFile.transferTo(file);
 	}
 
 	// @Transactional

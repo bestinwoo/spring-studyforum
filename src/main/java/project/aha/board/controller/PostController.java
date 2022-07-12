@@ -1,27 +1,37 @@
 package project.aha.board.controller;
 
+import java.io.IOException;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import lombok.RequiredArgsConstructor;
 import project.aha.board.dto.PostDto;
 import project.aha.board.service.PostService;
 import project.aha.common.BasicResponse;
+import project.aha.common.ErrorResponse;
 import project.aha.common.Result;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping()
-public class PostController {
+public class PostController { // TODO: 글 삭제될 때마다 아무도 참조하지 않는 태그 삭제
 	private final PostService postService;
 
 	@PostMapping("/post")
-	public ResponseEntity<BasicResponse> writePost(@RequestBody PostDto.Request postDto) {
-		return ResponseEntity.status(HttpStatus.CREATED).body(new Result<>(postService.writePost(postDto)));
+	public ResponseEntity<BasicResponse> writePost(PostDto.Request postDto,
+		@RequestParam("file") MultipartFile file) {
+		try {
+			Long id = postService.writePost(postDto, file);
+			return ResponseEntity.status(HttpStatus.CREATED).body(new Result<>(id));
+		} catch (IOException e) {
+			return ResponseEntity.badRequest().body(new ErrorResponse(e.getMessage()));
+		}
 	}
 
 	// @PatchMapping("/post/{postId}")

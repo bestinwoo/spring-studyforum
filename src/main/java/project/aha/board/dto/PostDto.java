@@ -6,6 +6,7 @@ import java.util.Set;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import project.aha.board.domain.Board;
 import project.aha.board.domain.Post;
 import project.aha.user.domain.User;
@@ -14,6 +15,7 @@ public class PostDto {
 	@NoArgsConstructor
 	@AllArgsConstructor
 	@Getter
+	@Setter
 	public static class Request {
 		private String content;
 		private String title;
@@ -27,6 +29,8 @@ public class PostDto {
 				.writer(User.builder().id(userId).build())
 				.board(Board.builder().id(boardId).build())
 				.writeDate(LocalDateTime.now())
+				.views(0L)
+				.replyCount(0L)
 				.build();
 		}
 	}
