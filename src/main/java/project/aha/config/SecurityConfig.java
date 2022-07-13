@@ -66,6 +66,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.antMatchers("/auth/**").permitAll()
 			.antMatchers("/image/**").permitAll()
 			.antMatchers("/board").permitAll()
+			.antMatchers(HttpMethod.GET, "/post/**").permitAll()
 			//    .antMatchers("/post/**").permitAll()
 			.anyRequest().authenticated()   // 나머지 API 는 전부 인증 필요
 

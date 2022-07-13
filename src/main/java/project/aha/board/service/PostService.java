@@ -2,6 +2,7 @@ package project.aha.board.service;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,13 +12,12 @@ import lombok.RequiredArgsConstructor;
 import project.aha.auth.jwt.SecurityUtil;
 import project.aha.board.domain.Post;
 import project.aha.board.dto.PostDto;
-import project.aha.board.repository.PostMapper;
+import project.aha.board.dto.PostResponse;
 import project.aha.board.repository.PostRepository;
 
 @Service
 @RequiredArgsConstructor
 public class PostService {
-	private final PostMapper postMapper;
 	private final PostRepository postRepository;
 	private final PostTagService postTagService;
 
@@ -33,7 +33,7 @@ public class PostService {
 		return postId;
 	}
 
-	// TODO: 공통 모듈로 빼기, png랑 jpg만 입력받게 하기
+	// TODO: 이미지 서비스로 빼기, png랑 jpg만 입력받게 하기
 	private String saveImage(MultipartFile multipartFile, Long postId) throws IOException {
 		String absolutePath = new File("").getAbsolutePath() + "\\";
 		String path = "src/main/resources/images/";
@@ -47,6 +47,10 @@ public class PostService {
 		file = new File(absolutePath + imagePath);
 		multipartFile.transferTo(file);
 		return fileName;
+	}
+
+	public List<PostResponse> getPosts(Long boardId) {
+		return postRepository.findPostByBoardId(boardId);
 	}
 
 	// @Transactional

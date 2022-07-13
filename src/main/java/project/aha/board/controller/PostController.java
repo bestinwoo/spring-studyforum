@@ -1,9 +1,12 @@
 package project.aha.board.controller;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -12,10 +15,12 @@ import org.springframework.web.multipart.MultipartFile;
 
 import lombok.RequiredArgsConstructor;
 import project.aha.board.dto.PostDto;
+import project.aha.board.dto.PostResponse;
 import project.aha.board.service.PostService;
 import project.aha.common.BasicResponse;
 import project.aha.common.ErrorResponse;
 import project.aha.common.Result;
+import project.aha.common.validation.ValidationSequence;
 
 @RestController
 @RequiredArgsConstructor
@@ -24,13 +29,23 @@ public class PostController { // TODO: 글 삭제될 때마다 아무도 참조�
 	private final PostService postService;
 
 	@PostMapping("/post")
-	public ResponseEntity<BasicResponse> writePost(PostDto.Request postDto,
+	public ResponseEntity<BasicResponse> writePost(@Validated(ValidationSequence.class) PostDto.Request postDto,
 		@RequestParam("file") MultipartFile file) {
 		try {
 			Long id = postService.writePost(postDto, file);
 			return ResponseEntity.status(HttpStatus.CREATED).body(new Result<>(id));
 		} catch (IOException e) {
 			return ResponseEntity.badRequest().body(new ErrorResponse(e.getMessage()));
+		}
+	}
+
+	@GetMapping("/post")
+	public ResponseEntity<BasicResponse> getPost(@RequestParam Long boardId) {
+		List<PostResponse> posts = postService.getPosts(boardId);
+		if (posts.isEmpty()) {
+			return ResponseEntity.notFound().build();
+		} else {
+			return ResponseEntity.ok(new Result<>(posts));
 		}
 	}
 
