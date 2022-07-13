@@ -12,8 +12,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import project.aha.common.ValidationGroups.NotEmptyGroup;
-import project.aha.common.ValidationGroups.PatternCheckGroup;
+import project.aha.common.validation.ValidationGroups.NotEmptyGroup;
+import project.aha.common.validation.ValidationGroups.PatternCheckGroup;
 import project.aha.user.domain.MemberRole;
 import project.aha.user.domain.User;
 

@@ -1,6 +1,6 @@
-package project.aha.common;
+package project.aha.common.validation;
 
-import static project.aha.common.ValidationGroups.*;
+import static project.aha.common.validation.ValidationGroups.*;
 
 import javax.validation.GroupSequence;
 import javax.validation.groups.Default;

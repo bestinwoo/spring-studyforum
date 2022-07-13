@@ -36,7 +36,7 @@ public class PostService {
 	// TODO: 공통 모듈로 빼기, png랑 jpg만 입력받게 하기
 	private String saveImage(MultipartFile multipartFile, Long postId) throws IOException {
 		String absolutePath = new File("").getAbsolutePath() + "\\";
-		String path = "src/main/resources/images/post";
+		String path = "src/main/resources/images/";
 		File file = new File(path);
 		if (!file.exists()) {
 			file.mkdirs();

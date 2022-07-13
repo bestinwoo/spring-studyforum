@@ -1,6 +1,6 @@
 package project.aha.auth;
 
-import static project.aha.common.ValidationGroups.*;
+import static project.aha.common.validation.ValidationGroups.*;
 
 import java.util.Set;
 
