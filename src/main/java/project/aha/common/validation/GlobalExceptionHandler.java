@@ -14,13 +14,13 @@ public class GlobalExceptionHandler {
 	@ExceptionHandler(MethodArgumentNotValidException.class)
 	public ResponseEntity<ErrorResponse> handleValidationExceptions(MethodArgumentNotValidException exception) {
 		return ResponseEntity.badRequest()
-			.body(new ErrorResponse(exception.getBindingResult().getFieldError().getDefaultMessage(), "400"));
+			.body(new ErrorResponse(exception.getBindingResult().getFieldError().getDefaultMessage()));
 	}
 
 	//Reqeust Param or ModelAttribute Validation Exception
 	@ExceptionHandler(BindException.class)
 	public ResponseEntity<ErrorResponse> handleValidationExceptions(BindException exception) {
 		return ResponseEntity.badRequest()
-			.body(new ErrorResponse(exception.getBindingResult().getFieldError().getDefaultMessage(), "400"));
+			.body(new ErrorResponse(exception.getBindingResult().getFieldError().getDefaultMessage()));
 	}
 }

@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,6 +25,7 @@ import project.aha.common.validation.ValidationSequence;
 
 @RestController
 @RequiredArgsConstructor
+@CrossOrigin()
 @RequestMapping()
 public class PostController { // TODO: 글 삭제될 때마다 아무도 참조하지 않는 태그 삭제
 	private final PostService postService;
