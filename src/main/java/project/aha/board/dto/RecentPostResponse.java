@@ -20,6 +20,7 @@ public class RecentPostResponse {
 	private String boardTitle;
 	private String postTitle;
 	private String writerLoginId;
+	private String imagePath;
 	private LocalDateTime writeDate;
 	private Long views;
 	private Long replyCount;
@@ -34,6 +35,7 @@ public class RecentPostResponse {
 			.writeDate(post.getWriteDate())
 			.views(post.getViews())
 			.replyCount(post.getReplyCount())
+			.imagePath(post.getImagePath())
 			.build();
 	}
 }

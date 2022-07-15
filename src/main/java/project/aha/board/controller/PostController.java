@@ -1,8 +1,9 @@
 package project.aha.board.controller;
 
 import java.io.IOException;
-import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -42,12 +43,13 @@ public class PostController { // TODO: 글 삭제될 때마다 아무도 참조�
 	}
 
 	@GetMapping("/post")
-	public ResponseEntity<BasicResponse> getPost(@RequestParam Long boardId) {
-		List<PostResponse> posts = postService.getPosts(boardId);
+	public ResponseEntity<BasicResponse> getPost(Pageable pageable, @RequestParam Long boardId,
+		@RequestParam(required = false, defaultValue = "") String keyword) {
+		Page<PostResponse> posts = postService.getPostsByKeywordAndSort(pageable, boardId, keyword);
 		if (posts.isEmpty()) {
 			return ResponseEntity.notFound().build();
 		} else {
-			return ResponseEntity.ok(new Result<>(posts));
+			return ResponseEntity.ok(new Result<>(posts, posts.getNumberOfElements()));
 		}
 	}
 
@@ -65,16 +67,6 @@ public class PostController { // TODO: 글 삭제될 때마다 아무도 참조�
 	// 	return ResponseEntity.noContent().build();
 	// }
 	//
-	// @GetMapping("/post/{boardId}")
-	// public ResponseEntity<BasicResponse> getPostList(@PathVariable Long boardId) {
-	// 	List<PostResponse> body = postService.findPostList(boardId);
-	//
-	// 	if (body.isEmpty()) {
-	// 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorResponse("해당 게시판에 게시글이 없습니다."));
-	// 	}
-	//
-	// 	return ResponseEntity.ok(new Result<>(body));
-	// }
 	//
 	// @GetMapping("/post/{boardId}/{postId}")
 	// public ResponseEntity<BasicResponse> getPostDetail(@PathVariable Long boardId, @PathVariable Long postId) {

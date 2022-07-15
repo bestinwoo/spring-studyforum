@@ -24,4 +24,7 @@ public interface PostResponse {
 
 	String getImagePath();
 
+	public interface Detail {
+		String getContent();
+	}
 }

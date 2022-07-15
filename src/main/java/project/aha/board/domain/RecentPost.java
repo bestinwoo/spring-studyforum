@@ -28,4 +28,5 @@ public class RecentPost {
 	private LocalDateTime writeDate;
 	private Long views;
 	private Long replyCount;
+	private String imagePath;
 }

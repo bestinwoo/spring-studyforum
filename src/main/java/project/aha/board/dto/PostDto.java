@@ -1,14 +1,18 @@
 package project.aha.board.dto;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Set;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import project.aha.board.domain.Board;
 import project.aha.board.domain.Post;
@@ -16,7 +20,6 @@ import project.aha.common.validation.ValidationGroups.NotEmptyGroup;
 import project.aha.user.domain.User;
 
 public class PostDto {
-	@NoArgsConstructor
 	@AllArgsConstructor
 	@Getter
 	@Setter
@@ -41,4 +44,38 @@ public class PostDto {
 				.build();
 		}
 	}
+
+	@Getter
+	@Setter
+	@AllArgsConstructor(access = AccessLevel.PROTECTED)
+	@Builder(access = AccessLevel.PROTECTED)
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	public static class Response {
+		private Long id;
+		private String title;
+		private Long boardId;
+		private Long writerId;
+		private String writerLoginId;
+		private LocalDateTime writeDate;
+		private Long views;
+		private Long replyCount;
+		private String imagePath;
+		private List<String> tags;
+		private String content;
+
+		public static Response from(Post post) {
+			return Response.builder()
+				.id(post.getId())
+				.title(post.getTitle())
+				.boardId(post.getBoard().getId())
+				.writerId(post.getWriter().getId())
+				.writerLoginId(post.getWriter().getLoginId())
+				.writeDate(post.getWriteDate())
+				.views(post.getViews())
+				.replyCount(post.getReplyCount())
+				.imagePath(post.getImagePath())
+				.build();
+		}
+	}
+
 }
