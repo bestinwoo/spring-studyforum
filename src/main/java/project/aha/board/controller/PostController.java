@@ -17,7 +17,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import lombok.RequiredArgsConstructor;
 import project.aha.board.dto.PostDto;
-import project.aha.board.dto.PostResponse;
 import project.aha.board.service.PostService;
 import project.aha.common.BasicResponse;
 import project.aha.common.ErrorResponse;
@@ -45,7 +44,7 @@ public class PostController { // TODO: 글 삭제될 때마다 아무도 참조�
 	@GetMapping("/post")
 	public ResponseEntity<BasicResponse> getPost(Pageable pageable, @RequestParam Long boardId,
 		@RequestParam(required = false, defaultValue = "") String keyword) {
-		Page<PostResponse> posts = postService.getPostsByKeywordAndSort(pageable, boardId, keyword);
+		Page<PostDto.Response> posts = postService.getPostsByKeywordAndSort(pageable, boardId, keyword);
 		if (posts.isEmpty()) {
 			return ResponseEntity.notFound().build();
 		} else {

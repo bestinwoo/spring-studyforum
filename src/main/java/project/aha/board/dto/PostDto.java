@@ -3,9 +3,12 @@ package project.aha.board.dto;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+
+import org.springframework.data.domain.Page;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
@@ -74,7 +77,16 @@ public class PostDto {
 				.views(post.getViews())
 				.replyCount(post.getReplyCount())
 				.imagePath(post.getImagePath())
+				.tags(post.getTags().stream().map(tag -> tag.getTag().getName()).collect(Collectors.toList()))
 				.build();
+		}
+
+		public static Page<Response> from(Page<Post> posts) {
+			return posts.map(Response::from);
+		}
+
+		public void setTags(List<String> tags) {
+			this.tags = tags;
 		}
 	}
 

@@ -12,10 +12,14 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import project.aha.auth.dto.AuthRequest;
 import project.aha.auth.dto.AuthResponse;
+import project.aha.auth.dto.TokenDto;
 import project.aha.auth.service.AuthService;
 import project.aha.user.domain.User;
 import project.aha.user.repository.UserRepository;
@@ -28,6 +32,8 @@ public class AuthServiceTest {
 	UserRepository userRepository;
 	@Spy
 	BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+	@Mock
+	AuthenticationManagerBuilder authenticationManagerBuilder;
 
 	@Nested
 	@DisplayName("회원가입")
@@ -55,21 +61,28 @@ public class AuthServiceTest {
 		}
 	}
 
-	// @Nested
-	// @DisplayName("로그인")
-	// class Login {
-	// 	private AuthRequest authRequest;
-	//
-	// 	@BeforeEach
-	// 	void setup() {
-	// 		authRequest = new AuthRequest("test", "1234");
-	// 	}
-	//
-	// 	@Test
-	// 	@DisplayName("로그인 성공")
-	// 	void login_success() {
-	// 		User user = authRequest.toUser(encoder);
-	//
-	// 	}
-	// }
+	@Nested
+	@DisplayName("로그인")
+	class Login {
+		private AuthRequest authRequest;
+
+		@BeforeEach
+		void setup() {
+			authRequest = new AuthRequest("test@te1s2t.com", "1111");
+		}
+
+		@Test
+		@DisplayName("로그인 성공")
+		void login_success() {
+			// given
+
+			when(authenticationManagerBuilder.getObject()
+				.authenticate(any(UsernamePasswordAuthenticationToken.class))).thenReturn(
+				SecurityContextHolder.getContext().getAuthentication());
+			// when
+			TokenDto login = authService.login(authRequest);
+			// then
+			System.out.println("login = " + login);
+		}
+	}
 }

@@ -13,7 +13,6 @@ import lombok.RequiredArgsConstructor;
 import project.aha.auth.jwt.SecurityUtil;
 import project.aha.board.domain.Post;
 import project.aha.board.dto.PostDto;
-import project.aha.board.dto.PostResponse;
 import project.aha.board.repository.PostRepository;
 
 @Service
@@ -25,7 +24,7 @@ public class PostService {
 	@Transactional(rollbackFor = Exception.class)
 	public Long writePost(PostDto.Request postDto, MultipartFile file) throws IOException {
 		Long userId = SecurityUtil.getCurrentMemberId();
-		Post savedPost = postRepository.save(postDto.toPost(userId));
+		project.aha.board.domain.Post savedPost = postRepository.save(postDto.toPost(userId));
 		postTagService.saveTags(savedPost, postDto.getTags());
 		Long postId = savedPost.getId();
 		if (file != null) {
@@ -51,8 +50,11 @@ public class PostService {
 	}
 
 	@Transactional(readOnly = true)
-	public Page<PostResponse> getPostsByKeywordAndSort(Pageable pageable, Long boardId, String keyword) {
-		return postRepository.findByBoardIdAndTitleContaining(boardId, keyword, pageable);
+	public Page<PostDto.Response> getPostsByKeywordAndSort(Pageable pageable, Long boardId, String keyword) {
+		Page<Post> posts = postRepository.findByBoardIdAndTitleContaining(boardId,
+			keyword, pageable);
+
+		return posts.map(PostDto.Response::from);
 	}
 
 	// @Transactional
