@@ -1,5 +1,6 @@
-package project.aha.auth;
+package project.aha.dto;
 
+import static org.assertj.core.api.Assertions.*;
 import static project.aha.common.validation.ValidationGroups.*;
 
 import java.util.Set;
@@ -9,7 +10,6 @@ import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
@@ -45,7 +45,7 @@ public class AuthDtoTest {
 			Set<ConstraintViolation<AuthRequest>> violations = validator.validate(authRequest,
 				NotEmptyGroup.class);
 			//then
-			Assertions.assertThat(violations).isNotEmpty();
+			assertThat(violations).isNotEmpty();
 		}
 
 		@Test
@@ -58,7 +58,7 @@ public class AuthDtoTest {
 				PatternCheckGroup.class);
 			System.out.println(violations);
 			//then
-			Assertions.assertThat(violations).isNotEmpty();
+			assertThat(violations).isNotEmpty();
 		}
 
 		@Test
@@ -69,7 +69,7 @@ public class AuthDtoTest {
 			//when
 			Set<ConstraintViolation<AuthRequest>> violations = validator.validate(authRequest, PatternCheckGroup.class);
 			//then
-			Assertions.assertThat(violations).isEmpty();
+			assertThat(violations).isEmpty();
 		}
 	}
 
@@ -84,7 +84,7 @@ public class AuthDtoTest {
 			//when
 			Set<ConstraintViolation<AuthRequest>> violations = validator.validate(authRequest);
 			//then
-			Assertions.assertThat(violations).isEmpty();
+			assertThat(violations).isEmpty();
 		}
 
 		@Test
@@ -95,7 +95,7 @@ public class AuthDtoTest {
 			//when
 			Set<ConstraintViolation<AuthRequest>> violations = validator.validate(authRequest);
 			//then
-			Assertions.assertThat(violations).isNotEmpty();
+			assertThat(violations).isNotEmpty();
 		}
 	}
 }

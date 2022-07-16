@@ -8,8 +8,6 @@ import java.util.stream.Collectors;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-import org.springframework.data.domain.Page;
-
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import lombok.AccessLevel;
@@ -79,14 +77,6 @@ public class PostDto {
 				.imagePath(post.getImagePath())
 				.tags(post.getTags().stream().map(tag -> tag.getTag().getName()).collect(Collectors.toList()))
 				.build();
-		}
-
-		public static Page<Response> from(Page<Post> posts) {
-			return posts.map(Response::from);
-		}
-
-		public void setTags(List<String> tags) {
-			this.tags = tags;
 		}
 	}
 
