@@ -1,6 +1,5 @@
 package project.aha.board.repository;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -11,6 +10,4 @@ import project.aha.board.domain.PostTag;
 @Repository
 public interface PostTagRepository extends JpaRepository<PostTag, Long> {
 	Optional<PostTag> findByPostIdAndTagId(Long postId, Long tagId);
-
-	List<PostTag> findByPostId(Long postId);
 }

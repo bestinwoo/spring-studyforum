@@ -44,8 +44,15 @@ public class PostController { // TODO: 글 삭제될 때마다 아무도 참조�
 
 	@GetMapping("/post")
 	public ResponseEntity<BasicResponse> getPost(Pageable pageable, @RequestParam Long boardId,
-		@RequestParam(required = false, defaultValue = "") String keyword) {
-		Page<PostDto.Response> posts = postService.getPostsByKeywordAndSort(pageable, boardId, keyword);
+		@RequestParam(required = false, defaultValue = "") String keyword,
+		@RequestParam(required = false) String tagName) {
+		Page<PostDto.Response> posts;
+		if (tagName != null && !tagName.isEmpty()) {
+			tagName = "%" + tagName + "%";
+			posts = postService.getPostByTagName(pageable, boardId, tagName);
+		} else {
+			posts = postService.getPostsByKeywordAndSort(pageable, boardId, keyword);
+		}
 		return ResponseEntity.ok(new Result<>(posts, posts.getNumberOfElements()));
 	}
 

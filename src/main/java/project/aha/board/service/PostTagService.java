@@ -1,6 +1,5 @@
 package project.aha.board.service;
 
-import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -45,12 +44,5 @@ public class PostTagService {
 					.build())
 				.build());
 		return postTagRepository.save(postTag);
-	}
-
-	public List<String> getTags(Long postId) {
-		List<PostTag> postTags = postTagRepository.findByPostId(postId);
-		return postTags.stream().map(m -> {
-			return m.getTag().getName();
-		}).collect(Collectors.toList());
 	}
 }

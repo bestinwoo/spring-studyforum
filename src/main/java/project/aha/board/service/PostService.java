@@ -70,6 +70,10 @@ public class PostService {
 		return postDto;
 	}
 
+	@Transactional(readOnly = true)
+	public Page<PostDto.Response> getPostByTagName(Pageable pageable, Long boardId, String tagName) {
+		return postRepository.findByBoardIdAndTagContaining(boardId, tagName, pageable).map(PostDto.Response::from);
+	}
 	// @Transactional
 	// public Long modifyPost(Long postId, PostDto postDto) {
 	// 	Long userId = SecurityUtil.getCurrentMemberId();
