@@ -14,6 +14,7 @@ import project.aha.auth.jwt.SecurityUtil;
 import project.aha.board.domain.Post;
 import project.aha.board.dto.PostDto;
 import project.aha.board.repository.PostRepository;
+import project.aha.common.ResourceNotFoundException;
 
 @Service
 @RequiredArgsConstructor
@@ -53,8 +54,19 @@ public class PostService {
 	public Page<PostDto.Response> getPostsByKeywordAndSort(Pageable pageable, Long boardId, String keyword) {
 		Page<Post> posts = postRepository.findByBoardIdAndTitleContaining(boardId,
 			keyword, pageable);
+		if (posts.isEmpty()) {
+			throw new ResourceNotFoundException();
+		}
 
 		return posts.map(PostDto.Response::from);
+	}
+
+	@Transactional(readOnly = true)
+	public PostDto.Response getPostDetail(Long postId) {
+		Post post = postRepository.findById(postId).orElseThrow(ResourceNotFoundException::new);
+		PostDto.Response postDto = PostDto.Response.from(post);
+		postDto.setContent(post.getContent());
+		return postDto;
 	}
 
 	// @Transactional

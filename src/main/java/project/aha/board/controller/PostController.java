@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -45,11 +46,12 @@ public class PostController { // TODO: 글 삭제될 때마다 아무도 참조�
 	public ResponseEntity<BasicResponse> getPost(Pageable pageable, @RequestParam Long boardId,
 		@RequestParam(required = false, defaultValue = "") String keyword) {
 		Page<PostDto.Response> posts = postService.getPostsByKeywordAndSort(pageable, boardId, keyword);
-		if (posts.isEmpty()) {
-			return ResponseEntity.notFound().build();
-		} else {
-			return ResponseEntity.ok(new Result<>(posts, posts.getNumberOfElements()));
-		}
+		return ResponseEntity.ok(new Result<>(posts, posts.getNumberOfElements()));
+	}
+
+	@GetMapping("/post/{postId}")
+	public ResponseEntity<BasicResponse> getPostDetail(@PathVariable Long postId) {
+		return ResponseEntity.ok(new Result<>(postService.getPostDetail(postId)));
 	}
 
 	// @PatchMapping("/post/{postId}")
