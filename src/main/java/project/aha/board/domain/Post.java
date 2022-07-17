@@ -51,6 +51,10 @@ public class Post {
 		}
 	}
 
+	public void increaseViews() {
+		this.views += 1;
+	}
+
 	public void setImage_path(String imagePath) {
 		this.imagePath = imagePath;
 	}

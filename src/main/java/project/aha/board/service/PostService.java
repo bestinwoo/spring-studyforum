@@ -61,9 +61,10 @@ public class PostService {
 		return posts.map(PostDto.Response::from);
 	}
 
-	@Transactional(readOnly = true)
+	@Transactional(rollbackFor = Exception.class)
 	public PostDto.Response getPostDetail(Long postId) {
 		Post post = postRepository.findById(postId).orElseThrow(ResourceNotFoundException::new);
+		post.increaseViews();
 		PostDto.Response postDto = PostDto.Response.from(post);
 		postDto.setContent(post.getContent());
 		return postDto;
