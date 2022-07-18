@@ -2,6 +2,7 @@ package project.aha.board.service;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -70,10 +71,16 @@ public class PostService {
 		return postDto;
 	}
 
+	// @Transactional(readOnly = true)
+	// public Page<PostDto.Response> getPostByTagName(Pageable pageable, Long boardId, String tagName) {
+	// 	return postRepository.findByBoardIdAndTagContaining(boardId, tagName, pageable).map(PostDto.Response::from);
+	// }
+
 	@Transactional(readOnly = true)
-	public Page<PostDto.Response> getPostByTagName(Pageable pageable, Long boardId, String tagName) {
+	public Page<PostDto.Response> getPostByTagName(Pageable pageable, Long boardId, List<String> tagName) {
 		return postRepository.findByBoardIdAndTagContaining(boardId, tagName, pageable).map(PostDto.Response::from);
 	}
+
 	// @Transactional
 	// public Long modifyPost(Long postId, PostDto postDto) {
 	// 	Long userId = SecurityUtil.getCurrentMemberId();

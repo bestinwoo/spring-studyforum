@@ -1,6 +1,7 @@
 package project.aha.board.controller;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -45,10 +46,11 @@ public class PostController { // TODO: 글 삭제될 때마다 아무도 참조�
 	@GetMapping("/post")
 	public ResponseEntity<BasicResponse> getPost(Pageable pageable, @RequestParam Long boardId,
 		@RequestParam(required = false, defaultValue = "") String keyword,
-		@RequestParam(required = false) String tagName) {
+		@RequestParam(required = false) List<String> tagName) {
 		Page<PostDto.Response> posts;
 		if (tagName != null && !tagName.isEmpty()) {
-			tagName = "%" + tagName + "%";
+			tagName.stream().map(tag -> "%" + tag + "%");
+			//tagName = "%" + tagName + "%";
 			posts = postService.getPostByTagName(pageable, boardId, tagName);
 		} else {
 			posts = postService.getPostsByKeywordAndSort(pageable, boardId, keyword);
