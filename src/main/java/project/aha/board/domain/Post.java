@@ -46,8 +46,11 @@ public class Post {
 	private String imagePath;
 
 	public void setTags(Set<PostTag> tags) {
-		//	this.tags.clear();
-		this.tags.addAll(tags);
+		if (this.tags == null) {
+			this.tags = tags;
+		} else {
+			this.tags.addAll(tags);
+		}
 		for (PostTag tag : tags) {
 			tag.setPost(this);
 		}
