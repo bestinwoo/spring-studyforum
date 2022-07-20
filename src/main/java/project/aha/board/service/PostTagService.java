@@ -1,5 +1,6 @@
 package project.aha.board.service;
 
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -22,6 +23,25 @@ public class PostTagService {
 	public void saveTags(Post post, Set<String> tags) {
 		Set<PostTag> postTag = mapToPostTags(post, tags);
 		post.setTags(postTag);
+	}
+
+	@Transactional
+	public void deletePostTags(List<Long> ids) {
+		postTagRepository.deleteAllByIdIn(ids);
+		postTagRepository.flush();
+	}
+
+	public void deleteOrphanTags(List<Long> tagIds) {
+		List<Tag> allTagsInPost = postTagRepository.findAll()
+			.stream()
+			.map(PostTag::getTag)
+			.collect(Collectors.toList());
+
+		List<Long> deleteTags = tagIds.stream().filter(t -> !allTagsInPost.contains(t)).collect(Collectors.toList());
+		if (!deleteTags.isEmpty()) {
+			tagService.deleteTagByIdIn(deleteTags);
+		}
+
 	}
 
 	private Set<PostTag> mapToPostTags(Post post, Set<String> tags) {

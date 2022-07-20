@@ -2,16 +2,20 @@ package project.aha.board.controller;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -48,9 +52,9 @@ public class PostController { // TODO: 글 삭제될 때마다 아무도 참조�
 		@RequestParam(required = false, defaultValue = "") String keyword,
 		@RequestParam(required = false) List<String> tagName) {
 		Page<PostDto.Response> posts;
+
 		if (tagName != null && !tagName.isEmpty()) {
-			tagName.stream().map(tag -> "%" + tag + "%");
-			//tagName = "%" + tagName + "%";
+			tagName = tagName.stream().map(tag -> "%" + tag + "%").collect(Collectors.toList());
 			posts = postService.getPostByTagName(pageable, boardId, tagName);
 		} else {
 			posts = postService.getPostsByKeywordAndSort(pageable, boardId, keyword);
@@ -61,6 +65,16 @@ public class PostController { // TODO: 글 삭제될 때마다 아무도 참조�
 	@GetMapping("/post/{postId}")
 	public ResponseEntity<BasicResponse> getPostDetail(@PathVariable Long postId) {
 		return ResponseEntity.ok(new Result<>(postService.getPostDetail(postId)));
+	}
+
+	@PutMapping("/post/{postId}")
+	public ResponseEntity<BasicResponse> modifyPost(@PathVariable Long postId, @RequestBody PostDto.Request request) {
+		try {
+			postService.modifyPost(postId, request);
+			return ResponseEntity.ok().build();
+		} catch (AccessDeniedException e) {
+			return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new ErrorResponse(e.getMessage(), "403"));
+		}
 	}
 
 	// @PatchMapping("/post/{postId}")

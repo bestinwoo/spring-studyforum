@@ -14,6 +14,7 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import project.aha.board.domain.Board;
 import project.aha.board.domain.Post;
@@ -22,6 +23,7 @@ import project.aha.user.domain.User;
 
 public class PostDto {
 	@AllArgsConstructor
+	@NoArgsConstructor
 	@Getter
 	@Setter
 	public static class Request {
@@ -44,6 +46,7 @@ public class PostDto {
 				.replyCount(0L)
 				.build();
 		}
+
 	}
 
 	@Getter

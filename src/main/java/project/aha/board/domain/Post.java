@@ -18,6 +18,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import project.aha.board.dto.PostDto;
 import project.aha.user.domain.User;
 
 @AllArgsConstructor
@@ -45,7 +46,8 @@ public class Post {
 	private String imagePath;
 
 	public void setTags(Set<PostTag> tags) {
-		this.tags = tags;
+		//	this.tags.clear();
+		this.tags.addAll(tags);
 		for (PostTag tag : tags) {
 			tag.setPost(this);
 		}
@@ -53,6 +55,11 @@ public class Post {
 
 	public void increaseViews() {
 		this.views += 1;
+	}
+
+	public void modifyPost(PostDto.Request request) {
+		this.content = request.getContent();
+		this.title = request.getTitle();
 	}
 
 	public void setImage_path(String imagePath) {
