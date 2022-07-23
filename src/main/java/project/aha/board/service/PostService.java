@@ -106,15 +106,25 @@ public class PostService {
 		post.modifyPost(request);
 		postTagService.saveTags(post, request.getTags());
 	}
-	// @Transactional(readOnly = true)
-	// public List<PostResponse> findPostList(Long boardId) {
-	// 	List<PostResponse> list = postMapper.findByBoardId(boardId)
-	// 		.stream()
-	// 		.map(PostResponse::of)
-	// 		.collect(Collectors.toList());
-	// 	return list;
-	// }
-	//
+
+	@Transactional(rollbackFor = Exception.class)
+	public void deletePost(Long postId) {
+		Long userId = SecurityUtil.getCurrentMemberId();
+		Post post = postRepository.findById(postId).orElseThrow(ResourceNotFoundException::new);
+		if (post.getWriter() == null || !post.getWriter().getId().equals(userId)) {
+			throw new AccessDeniedException("삭제 권한이 없습니다.");
+		}
+
+		List<Long> deleteTagIds = post.getTags().stream().map(PostTag::getTag).map(Tag::getId).collect(
+			Collectors.toList());
+
+		postRepository.delete(post);
+
+		if (!post.getTags().isEmpty()) {
+			postTagService.deleteOrphanTags(deleteTagIds);
+		}
+	}
+
 	// @Transactional(readOnly = true)
 	// public PostResponse postDetail(Long postId) {
 	// 	return postMapper.findById(postId).map(PostResponse::of).orElseThrow(IllegalStateException::new);
