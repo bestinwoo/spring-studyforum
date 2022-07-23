@@ -1,9 +1,15 @@
 package project.aha.reply.controller;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
+import project.aha.common.BasicResponse;
+import project.aha.reply.dto.ReplyDto;
 import project.aha.reply.service.ReplyService;
 
 @RestController
@@ -11,6 +17,12 @@ import project.aha.reply.service.ReplyService;
 @RequestMapping("/reply")
 public class ReplyController {
 	private final ReplyService replyService;
+
+	@PostMapping()
+	public ResponseEntity<BasicResponse> writeReply(@RequestBody ReplyDto.Request request) {
+		replyService.writeReply(request);
+		return ResponseEntity.status(HttpStatus.CREATED).build();
+	}
 	//
 	// @PostMapping()
 	// public ResponseEntity<BasicResponse> writeReply(@RequestBody Reply reply) {

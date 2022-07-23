@@ -19,6 +19,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import project.aha.board.dto.PostDto;
+import project.aha.reply.domain.Reply;
 import project.aha.user.domain.User;
 
 @AllArgsConstructor
@@ -40,6 +41,8 @@ public class Post {
 	private Board board;
 	@OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
 	private Set<PostTag> tags;
+	@OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
+	private Set<Reply> replies;
 	private Long views;
 	private Long replyCount;
 	private LocalDateTime writeDate;
@@ -58,6 +61,14 @@ public class Post {
 
 	public void increaseViews() {
 		this.views += 1;
+	}
+
+	public void increaseReplyCount() {
+		this.replyCount += 1;
+	}
+
+	public void decreaseReplyCount() {
+		this.replyCount -= 1;
 	}
 
 	public void modifyPost(PostDto.Request request) {

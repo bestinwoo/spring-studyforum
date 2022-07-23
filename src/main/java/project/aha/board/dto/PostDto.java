@@ -19,6 +19,7 @@ import lombok.Setter;
 import project.aha.board.domain.Board;
 import project.aha.board.domain.Post;
 import project.aha.common.validation.ValidationGroups.NotEmptyGroup;
+import project.aha.reply.dto.ReplyDto;
 import project.aha.user.domain.User;
 
 public class PostDto {
@@ -65,6 +66,7 @@ public class PostDto {
 		private Long replyCount;
 		private String imagePath;
 		private List<String> tags;
+		private List<ReplyDto.Response> replies;
 		private String content;
 
 		public static Response from(Post post) {

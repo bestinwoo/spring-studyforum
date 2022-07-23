@@ -20,6 +20,7 @@ import project.aha.board.domain.Tag;
 import project.aha.board.dto.PostDto;
 import project.aha.board.repository.PostRepository;
 import project.aha.common.ResourceNotFoundException;
+import project.aha.reply.dto.ReplyDto;
 
 @Service
 @RequiredArgsConstructor
@@ -72,6 +73,7 @@ public class PostService {
 		post.increaseViews();
 		PostDto.Response postDto = PostDto.Response.from(post);
 		postDto.setContent(post.getContent());
+		postDto.setReplies(post.getReplies().stream().map(ReplyDto.Response::of).collect(Collectors.toList()));
 		return postDto;
 	}
 
@@ -124,20 +126,4 @@ public class PostService {
 			postTagService.deleteOrphanTags(deleteTagIds);
 		}
 	}
-
-	// @Transactional(readOnly = true)
-	// public PostResponse postDetail(Long postId) {
-	// 	return postMapper.findById(postId).map(PostResponse::of).orElseThrow(IllegalStateException::new);
-	// }
-	//
-	// @Transactional
-	// public Long deletePost(Long postId) {
-	// 	return postMapper.delete(postId);
-	// }
-	//
-	// @Transactional
-	// public Long increaseViews(Long id) {
-	// 	return postMapper.increaseViews(id);
-	// }
-
 }
