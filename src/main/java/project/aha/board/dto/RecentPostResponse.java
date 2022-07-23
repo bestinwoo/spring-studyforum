@@ -1,6 +1,8 @@
 package project.aha.board.dto;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,6 +25,7 @@ public class RecentPostResponse {
 	private String imagePath;
 	private LocalDateTime writeDate;
 	private Long views;
+	private List<String> tags;
 	private Long replyCount;
 
 	public static RecentPostResponse of(RecentPost post) {
@@ -35,6 +38,7 @@ public class RecentPostResponse {
 			.writeDate(post.getWriteDate())
 			.views(post.getViews())
 			.replyCount(post.getReplyCount())
+			.tags(post.getTags().stream().map(tag -> tag.getTag().getName()).collect(Collectors.toList()))
 			.imagePath(post.getImagePath())
 			.build();
 	}

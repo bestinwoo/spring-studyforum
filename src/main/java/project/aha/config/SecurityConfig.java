@@ -1,5 +1,7 @@
 package project.aha.config;
 
+import java.util.List;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -11,6 +13,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.cors.CorsConfiguration;
 
 import lombok.RequiredArgsConstructor;
 import project.aha.auth.jwt.JwtAccessDeniedHandler;
@@ -39,6 +42,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
+		http.cors().configurationSource(request -> {
+			CorsConfiguration cors = new CorsConfiguration();
+			cors.setAllowedOrigins(List.of("*"));
+			cors.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+			cors.setAllowedHeaders(List.of("*"));
+			return cors;
+		});
 		// CSRF 설정 Disable
 		http.csrf().disable()
 

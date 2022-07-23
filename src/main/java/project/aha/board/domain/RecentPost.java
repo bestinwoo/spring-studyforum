@@ -1,11 +1,14 @@
 package project.aha.board.domain;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 import org.hibernate.annotations.Immutable;
 
@@ -26,6 +29,8 @@ public class RecentPost {
 	@JoinColumn(name = "board_id")
 	private Board board;
 	private LocalDateTime writeDate;
+	@OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
+	private Set<PostTag> tags;
 	private Long views;
 	private Long replyCount;
 	private String imagePath;
