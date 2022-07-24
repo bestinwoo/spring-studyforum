@@ -38,6 +38,16 @@ public class ReplyService {
 		reply.modifyReply(request.getComment());
 	}
 
+	public void deleteReply(Long replyId) {
+		Reply reply = replyRepository.findById(replyId).orElseThrow(ResourceNotFoundException::new);
+		Long userId = SecurityUtil.getCurrentMemberId();
+		if (!userId.equals(reply.getWriter().getId())) {
+			throw new AccessDeniedException("권한이 없습니다.");
+		}
+		reply.getPost().decreaseReplyCount();
+		replyRepository.delete(reply);
+	}
+
 	// public boolean deleteReply(Long postId, Long id) {
 	// 	if (replyMapper.delete(id) == 0 || postMapper.decreaseReply(postId) == 0) {
 	// 		return false;
