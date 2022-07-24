@@ -1,5 +1,6 @@
 package project.aha.reply.service;
 
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,7 +28,16 @@ public class ReplyService {
 
 		replyRepository.save(reply);
 	}
-	
+
+	public void modifyReply(Long replyId, ReplyDto.Request request) {
+		Reply reply = replyRepository.findById(replyId).orElseThrow(ResourceNotFoundException::new);
+		Long userId = SecurityUtil.getCurrentMemberId();
+		if (!userId.equals(reply.getWriter().getId())) {
+			throw new AccessDeniedException("권한이 없습니다.");
+		}
+		reply.modifyReply(request.getComment());
+	}
+
 	// public boolean deleteReply(Long postId, Long id) {
 	// 	if (replyMapper.delete(id) == 0 || postMapper.decreaseReply(postId) == 0) {
 	// 		return false;

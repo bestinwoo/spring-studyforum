@@ -34,4 +34,8 @@ public class Reply {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id")
 	private User writer;
+
+	public void modifyReply(String comment) {
+		this.comment = comment;
+	}
 }

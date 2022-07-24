@@ -78,7 +78,7 @@ public class PostController { // TODO: 글 삭제될 때마다 아무도 참조�
 		}
 	}
 
-	@DeleteMapping("post/{postId}")
+	@DeleteMapping("/post/{postId}")
 	public ResponseEntity<BasicResponse> deletePost(@PathVariable Long postId) {
 		postService.deletePost(postId);
 		return ResponseEntity.ok().build();

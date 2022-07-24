@@ -2,6 +2,8 @@ package project.aha.reply.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,6 +24,13 @@ public class ReplyController {
 	public ResponseEntity<BasicResponse> writeReply(@RequestBody ReplyDto.Request request) {
 		replyService.writeReply(request);
 		return ResponseEntity.status(HttpStatus.CREATED).build();
+	}
+
+	@PatchMapping("/{replyId}")
+	public ResponseEntity<BasicResponse> modifyReply(@PathVariable Long replyId,
+		@RequestBody ReplyDto.Request request) {
+		replyService.modifyReply(replyId, request);
+		return ResponseEntity.ok().build();
 	}
 	//
 	// @PostMapping()
