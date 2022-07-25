@@ -3,6 +3,7 @@ package project.aha.user.domain;
 import java.time.LocalDateTime;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -26,11 +27,11 @@ public class User {
 	private String loginId;
 	private String password;
 	private LocalDateTime registerDate;
-	private LocalDateTime leaveDate;
-	@ManyToOne()
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "role_id")
 	private MemberRole role;
 	private String profileImgPath;
+	private String introduce;
 }
 
 

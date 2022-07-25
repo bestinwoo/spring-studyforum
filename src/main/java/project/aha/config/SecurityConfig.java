@@ -45,7 +45,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http.cors().configurationSource(request -> {
 			CorsConfiguration cors = new CorsConfiguration();
 			cors.setAllowedOrigins(List.of("*"));
-			cors.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+			cors.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
 			cors.setAllowedHeaders(List.of("*"));
 			return cors;
 		});
@@ -76,7 +76,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.antMatchers("/auth/**").permitAll()
 			.antMatchers("/image/**").permitAll()
 			.antMatchers("/board/**").permitAll()
-			.antMatchers(HttpMethod.GET, "/post/**").permitAll()
+			.antMatchers(HttpMethod.GET, "/post/**", "/user/**").permitAll()
 			//    .antMatchers("/post/**").permitAll()
 			.anyRequest().authenticated()   // 나머지 API 는 전부 인증 필요
 

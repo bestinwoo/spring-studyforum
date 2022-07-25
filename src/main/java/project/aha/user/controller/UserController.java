@@ -2,22 +2,28 @@ package project.aha.user.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
-import project.aha.user.dto.UserResponseDto;
+import project.aha.common.BasicResponse;
+import project.aha.common.Result;
+import project.aha.user.dto.UserDto;
 import project.aha.user.service.UserService;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/user")
 public class UserController {
 
 	private final UserService userService;
 
-	@GetMapping("/user")
-	public ResponseEntity<UserResponseDto> getMyInfo() {
-		return ResponseEntity.ok(userService.getMyInfo());
+	@GetMapping("/{userId}")
+	public ResponseEntity<BasicResponse> getUserInfo(@PathVariable Long userId) {
+		UserDto.Response userInfo = userService.getUserInfo(userId);
+		return ResponseEntity.ok(new Result<>(userInfo));
 	}
 
 	@PostMapping("/user")
