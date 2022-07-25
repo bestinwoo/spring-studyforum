@@ -32,6 +32,10 @@ public class User {
 	private MemberRole role;
 	private String profileImgPath;
 	private String introduce;
+
+	public void modifyIntroduce(String introduce) {
+		this.introduce = introduce;
+	}
 }
 
 

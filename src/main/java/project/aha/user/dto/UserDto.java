@@ -33,4 +33,10 @@ public class UserDto {
 		}
 	}
 
+	@Getter
+	@Setter
+	public static class ModifyIntroduce {
+		private String introduce;
+	}
+
 }

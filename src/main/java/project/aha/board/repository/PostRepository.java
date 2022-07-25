@@ -22,4 +22,5 @@ public interface PostRepository extends JpaRepository<project.aha.board.domain.P
 	@Query(value = "select p from Post p where p.board.id = :boardId and p.id in (select pt.post.id from PostTag pt inner join Tag t on pt.tag.id = t.id and t.name in :tagName)")
 	Page<Post> findByBoardIdAndTagContaining(@Param(value = "boardId") Long boardId,
 		@Param(value = "tagName") List<String> tagName, Pageable pageable);
+
 }
