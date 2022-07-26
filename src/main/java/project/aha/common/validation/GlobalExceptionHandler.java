@@ -7,8 +7,8 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import project.aha.common.ErrorResponse;
 import project.aha.common.ResourceNotFoundException;
+import project.aha.common.dto.ErrorResponse;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {

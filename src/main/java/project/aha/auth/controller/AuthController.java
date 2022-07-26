@@ -18,9 +18,9 @@ import project.aha.auth.dto.AuthResponse;
 import project.aha.auth.dto.TokenDto;
 import project.aha.auth.dto.TokenRequestDto;
 import project.aha.auth.service.AuthService;
-import project.aha.common.BasicResponse;
-import project.aha.common.ErrorResponse;
-import project.aha.common.Result;
+import project.aha.common.dto.BasicResponse;
+import project.aha.common.dto.ErrorResponse;
+import project.aha.common.dto.Result;
 import project.aha.common.validation.ValidationSequence;
 
 @RestController

@@ -25,16 +25,16 @@ import org.springframework.web.multipart.MultipartFile;
 import lombok.RequiredArgsConstructor;
 import project.aha.board.dto.PostDto;
 import project.aha.board.service.PostService;
-import project.aha.common.BasicResponse;
-import project.aha.common.ErrorResponse;
-import project.aha.common.Result;
+import project.aha.common.dto.BasicResponse;
+import project.aha.common.dto.ErrorResponse;
+import project.aha.common.dto.Result;
 import project.aha.common.validation.ValidationSequence;
 
 @RestController
 @RequiredArgsConstructor
 @CrossOrigin()
 @RequestMapping()
-public class PostController { // TODO: 글 삭제될 때마다 아무도 참조하지 않는 태그 삭제
+public class PostController {
 	private final PostService postService;
 
 	@PostMapping("/post")
@@ -108,7 +108,7 @@ public class PostController { // TODO: 글 삭제될 때마다 아무도 참조�
 	// }
 	//
 	// @DeleteMapping("/post/{postId}")
-	// public ResponseEntity<BasicResponse> deletePost(@PathVariable Long postId) { //TODO : 관리자는 자기 글 아니어도 삭제할 수 있게 수정 필요
+	// public ResponseEntity<BasicResponse> deletePost(@PathVariable Long postId) {
 	// 	if (!validateUser(postId)) {
 	// 		return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
 	// 			.body(new ErrorResponse("작성자만 게시글을 삭제할 수 있습니다.", "401"));

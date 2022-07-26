@@ -1,4 +1,4 @@
-package project.aha.common;
+package project.aha.common.dto;
 
 public interface BasicResponse {
 }

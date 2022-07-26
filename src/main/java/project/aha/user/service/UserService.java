@@ -1,9 +1,11 @@
 package project.aha.user.service;
 
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
+import project.aha.auth.jwt.SecurityUtil;
 import project.aha.board.repository.PostRepository;
 import project.aha.common.ResourceNotFoundException;
 import project.aha.reply.repository.ReplyRepository;
@@ -27,9 +29,9 @@ public class UserService {
 
 	public void modifyIntroduce(Long userId, UserDto.ModifyIntroduce modifyIntroduce) {
 		User user = userRepository.findById(userId).orElseThrow(ResourceNotFoundException::new);
-		// if (!user.getId().equals(SecurityUtil.getCurrentMemberId())) {
-		// 	throw new AccessDeniedException("권한이 없습니다.");
-		// }
+		if (!user.getId().equals(SecurityUtil.getCurrentMemberId())) {
+			throw new AccessDeniedException("권한이 없습니다.");
+		}
 		user.modifyIntroduce(modifyIntroduce.getIntroduce());
 	}
 

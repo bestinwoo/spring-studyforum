@@ -15,9 +15,9 @@ import project.aha.board.dto.BoardDto;
 import project.aha.board.dto.RecentPostResponse;
 import project.aha.board.repository.BoardRepository;
 import project.aha.board.repository.RecentPostRepository;
-import project.aha.common.BasicResponse;
-import project.aha.common.ErrorResponse;
-import project.aha.common.Result;
+import project.aha.common.dto.BasicResponse;
+import project.aha.common.dto.ErrorResponse;
+import project.aha.common.dto.Result;
 
 @RestController
 @RequiredArgsConstructor

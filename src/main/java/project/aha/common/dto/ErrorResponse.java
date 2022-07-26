@@ -1,4 +1,4 @@
-package project.aha.common;
+package project.aha.common.dto;
 
 import lombok.Getter;
 import lombok.Setter;

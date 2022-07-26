@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
-import project.aha.common.BasicResponse;
+import project.aha.common.dto.BasicResponse;
 import project.aha.reply.dto.ReplyDto;
 import project.aha.reply.service.ReplyService;
 

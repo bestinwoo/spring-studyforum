@@ -1,6 +1,5 @@
 package project.aha.board.service;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -19,6 +18,7 @@ import project.aha.board.domain.PostTag;
 import project.aha.board.domain.Tag;
 import project.aha.board.dto.PostDto;
 import project.aha.board.repository.PostRepository;
+import project.aha.common.ImageService;
 import project.aha.common.ResourceNotFoundException;
 import project.aha.reply.dto.ReplyDto;
 
@@ -27,6 +27,7 @@ import project.aha.reply.dto.ReplyDto;
 public class PostService {
 	private final PostRepository postRepository;
 	private final PostTagService postTagService;
+	private final ImageService imageService;
 
 	@Transactional(rollbackFor = Exception.class)
 	public Long writePost(PostDto.Request postDto, MultipartFile file) throws IOException {
@@ -35,25 +36,9 @@ public class PostService {
 		postTagService.saveTags(savedPost, postDto.getTags());
 		Long postId = savedPost.getId();
 		if (file != null) {
-			savedPost.setImage_path(saveImage(file, postId));
+			savedPost.setImage_path(imageService.saveImage(file, postId, "post"));
 		}
 		return postId;
-	}
-
-	// TODO: 이미지 서비스로 빼기, png랑 jpg만 입력받게 하기
-	private String saveImage(MultipartFile multipartFile, Long postId) throws IOException {
-		String absolutePath = new File("").getAbsolutePath() + "\\";
-		String path = "src/main/resources/images/";
-		File file = new File(path);
-		if (!file.exists()) {
-			file.mkdirs();
-		}
-		String fileName = "post-" + postId + ".png";
-		String imagePath = path + "/" + fileName;
-
-		file = new File(absolutePath + imagePath);
-		multipartFile.transferTo(file);
-		return fileName;
 	}
 
 	@Transactional(readOnly = true)
@@ -121,7 +106,7 @@ public class PostService {
 			Collectors.toList());
 
 		postRepository.delete(post);
-
+		//고아 태그 삭제
 		if (!post.getTags().isEmpty()) {
 			postTagService.deleteOrphanTags(deleteTagIds);
 		}
