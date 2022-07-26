@@ -36,6 +36,10 @@ public class User {
 	public void modifyIntroduce(String introduce) {
 		this.introduce = introduce;
 	}
+
+	public void modifyProfileImage(String imagePath) {
+		this.profileImgPath = imagePath;
+	}
 }
 
 

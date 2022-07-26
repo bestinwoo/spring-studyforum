@@ -23,4 +23,6 @@ public interface PostRepository extends JpaRepository<project.aha.board.domain.P
 	Page<Post> findByBoardIdAndTagContaining(@Param(value = "boardId") Long boardId,
 		@Param(value = "tagName") List<String> tagName, Pageable pageable);
 
+	Page<Post> findByWriterId(Long writerId, Pageable pageable);
+
 }
