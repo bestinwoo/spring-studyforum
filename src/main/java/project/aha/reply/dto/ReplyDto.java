@@ -47,7 +47,7 @@ public class ReplyDto {
 				.postWriterLoginId(reply.getPost().getWriter().getLoginId())
 				.comment(reply.getComment())
 				.writeDate(reply.getWriteDate())
-				.writerLoginId(reply.getWriter().getLoginId())
+				.writerLoginId(reply.getWriter() != null ? reply.getWriter().getLoginId() : null)
 				.writerId(reply.getId())
 				.build();
 		}
