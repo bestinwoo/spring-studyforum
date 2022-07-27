@@ -7,6 +7,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -70,6 +71,12 @@ public class UserController {
 			Sort.by("writeDate").descending());
 		Page<ReplyDto.Response> writeReplies = userService.getWriteReplies(userId, pageRequest);
 		return ResponseEntity.ok(new Result<>(writeReplies));
+	}
+
+	@DeleteMapping("/{userId}")
+	public ResponseEntity<BasicResponse> quitUser(@PathVariable Long userId) {
+		userService.quitUser(userId);
+		return ResponseEntity.ok().build();
 	}
 
 }

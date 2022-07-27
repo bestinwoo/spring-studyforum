@@ -69,4 +69,14 @@ public class UserService {
 		Page<Reply> writeReplies = replyRepository.findByWriterId(userId, pageable);
 		return writeReplies.map(ReplyDto.Response::of);
 	}
+
+	//회원 탈퇴
+	public void quitUser(Long userId) {
+		Long currentMemberId = SecurityUtil.getCurrentMemberId();
+		User user = userRepository.findById(userId).orElseThrow(ResourceNotFoundException::new);
+		if (!user.getId().equals(currentMemberId)) {
+			throw new AccessDeniedException("권한이 없습니다.");
+		}
+		userRepository.delete(user);
+	}
 }

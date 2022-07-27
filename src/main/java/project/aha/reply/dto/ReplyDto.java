@@ -33,6 +33,8 @@ public class ReplyDto {
 	@Builder
 	public static class Response {
 		private Long id;
+		private Long postId;
+		private String postWriterLoginId;
 		private String comment;
 		private LocalDateTime writeDate;
 		private String writerLoginId;
@@ -41,6 +43,8 @@ public class ReplyDto {
 		public static Response of(Reply reply) {
 			return Response.builder()
 				.id(reply.getId())
+				.postId(reply.getPost().getId())
+				.postWriterLoginId(reply.getPost().getWriter().getLoginId())
 				.comment(reply.getComment())
 				.writeDate(reply.getWriteDate())
 				.writerLoginId(reply.getWriter().getLoginId())
