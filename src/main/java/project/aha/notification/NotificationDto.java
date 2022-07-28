@@ -34,11 +34,13 @@ public class NotificationDto {
 		private Long postId;
 		private String message;
 		private boolean viewYn;
+		private LocalDateTime publishDate;
 
 		public static Response of(Notification notification) {
 			return Response.builder()
 				.id(notification.getId())
 				.message(notification.getMessage())
+				.publishDate(notification.getPublishDate())
 				.postId(notification.getPost().getId())
 				.viewYn(notification.isViewYn())
 				.build();

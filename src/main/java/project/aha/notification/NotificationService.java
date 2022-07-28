@@ -1,5 +1,8 @@
 package project.aha.notification;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,5 +22,13 @@ public class NotificationService {
 		notificationRepository.save(notification);
 		messagingTemplate.convertAndSend("/topic/notify/" + notification.getReceiver().getId(),
 			NotificationDto.Response.of(notification));
+	}
+
+	@Transactional(readOnly = true)
+	public List<NotificationDto.Response> getNotifications(Long userId) {
+		return notificationRepository.findByReceiverId(userId)
+			.stream()
+			.map(NotificationDto.Response::of)
+			.collect(Collectors.toList());
 	}
 }
