@@ -9,6 +9,8 @@ import project.aha.auth.jwt.SecurityUtil;
 import project.aha.board.domain.Post;
 import project.aha.board.repository.PostRepository;
 import project.aha.common.ResourceNotFoundException;
+import project.aha.notification.NotificationDto;
+import project.aha.notification.NotificationService;
 import project.aha.reply.domain.Reply;
 import project.aha.reply.dto.ReplyDto;
 import project.aha.reply.repository.ReplyRepository;
@@ -19,6 +21,7 @@ import project.aha.reply.repository.ReplyRepository;
 public class ReplyService {
 	private final ReplyRepository replyRepository;
 	private final PostRepository postRepository;
+	private final NotificationService notificationService;
 
 	public void writeReply(ReplyDto.Request request) {
 		Long userId = SecurityUtil.getCurrentMemberId();
@@ -27,6 +30,13 @@ public class ReplyService {
 		Reply reply = request.toReply(userId);
 
 		replyRepository.save(reply);
+
+		NotificationDto.Request notify = NotificationDto.Request.builder()
+			.postId(post.getId())
+			.receiverId(post.getWriter().getId())
+			.message(post.getTitle() + "에 새 댓글이 달렸습니다.")
+			.build();
+		notificationService.sendNotification(notify);
 	}
 
 	public void modifyReply(Long replyId, ReplyDto.Request request) {
