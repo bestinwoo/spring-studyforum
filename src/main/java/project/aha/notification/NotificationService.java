@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
+import project.aha.common.ResourceNotFoundException;
 
 @Service
 @RequiredArgsConstructor
@@ -30,5 +31,11 @@ public class NotificationService {
 			.stream()
 			.map(NotificationDto.Response::of)
 			.collect(Collectors.toList());
+	}
+
+	public void readNotification(Long notificationId) {
+		Notification notification = notificationRepository.findById(notificationId)
+			.orElseThrow(ResourceNotFoundException::new);
+		notification.readNotification();
 	}
 }
