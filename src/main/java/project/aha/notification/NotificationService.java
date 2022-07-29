@@ -38,4 +38,11 @@ public class NotificationService {
 			.orElseThrow(ResourceNotFoundException::new);
 		notification.readNotification();
 	}
+
+	public void deleteNotification(Long notificationId) {
+		Notification notification = notificationRepository.findById(notificationId)
+			.orElseThrow(ResourceNotFoundException::new);
+		notificationRepository.delete(notification);
+	}
+
 }

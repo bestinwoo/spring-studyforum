@@ -1,6 +1,7 @@
 package project.aha.notification;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,6 +26,12 @@ public class NotificationController {
 	@PostMapping("/{notificationId}")
 	public ResponseEntity<BasicResponse> readNotification(@PathVariable Long notificationId) {
 		notificationService.readNotification(notificationId);
+		return ResponseEntity.ok().build();
+	}
+
+	@DeleteMapping("/{notificationId}")
+	public ResponseEntity<BasicResponse> deleteNotification(@PathVariable Long notificationId) {
+		notificationService.deleteNotification(notificationId);
 		return ResponseEntity.ok().build();
 	}
 }
