@@ -8,7 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class ImageService {
-	// TODO: 이미지 서비스로 빼기, png랑 jpg만 입력받게 하기
+
 	public String saveImage(MultipartFile multipartFile, Long id, String type) throws IOException {
 		String originName = multipartFile.getOriginalFilename().toLowerCase();
 		if (!originName.endsWith(".png") && !originName.endsWith(".jpg")) {

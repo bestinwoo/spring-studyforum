@@ -11,13 +11,12 @@ import project.aha.user.domain.User;
 public class UserDto {
 	@Getter
 	@Setter
-	//@JsonInclude(JsonInclude.Include.NON_NULL)
 	@Builder
 	public static class Response {
 		private Long id;
 		private String loginId;
 		private LocalDateTime registerDate;
-		private Role role; // TODO: 이거 role_id -> role 가져오는거 해야함
+		private Role role;
 		private String profileImagePath;
 		private String introduce;
 
