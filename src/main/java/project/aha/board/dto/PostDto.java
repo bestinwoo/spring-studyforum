@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import lombok.AccessLevel;
@@ -61,6 +62,7 @@ public class PostDto {
 		private Long boardId;
 		private Long writerId;
 		private String writerLoginId;
+		@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
 		private LocalDateTime writeDate;
 		private Long views;
 		private Long replyCount;

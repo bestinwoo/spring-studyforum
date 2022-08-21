@@ -2,6 +2,8 @@ package project.aha.user.dto;
 
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,6 +17,7 @@ public class UserDto {
 	public static class Response {
 		private Long id;
 		private String loginId;
+		@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
 		private LocalDateTime registerDate;
 		private Role role;
 		private String profileImagePath;

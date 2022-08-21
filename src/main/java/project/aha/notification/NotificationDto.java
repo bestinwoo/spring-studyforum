@@ -2,6 +2,8 @@ package project.aha.notification;
 
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import lombok.Builder;
 import lombok.Getter;
 import project.aha.board.domain.Post;
@@ -34,6 +36,7 @@ public class NotificationDto {
 		private Long postId;
 		private String message;
 		private boolean viewYn;
+		@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
 		private LocalDateTime publishDate;
 
 		public static Response of(Notification notification) {
