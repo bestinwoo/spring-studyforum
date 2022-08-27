@@ -42,6 +42,7 @@ public class ReplyDto {
 		private LocalDateTime writeDate;
 		private String writerLoginId;
 		private Long writerId;
+		private String writerImagePath;
 
 		public static Response of(Reply reply) {
 			return Response.builder()
@@ -51,7 +52,8 @@ public class ReplyDto {
 				.comment(reply.getComment())
 				.writeDate(reply.getWriteDate())
 				.writerLoginId(reply.getWriter() != null ? reply.getWriter().getLoginId() : null)
-				.writerId(reply.getId())
+				.writerId(reply.getWriter() != null ? reply.getWriter().getId() : null)
+				.writerImagePath(reply.getWriter() != null ? reply.getWriter().getProfileImgPath() : null)
 				.build();
 		}
 	}
