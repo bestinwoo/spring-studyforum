@@ -1,6 +1,7 @@
 package project.aha.board.service;
 
 import java.io.IOException;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -58,7 +59,13 @@ public class PostService {
 		post.increaseViews();
 		PostDto.Response postDto = PostDto.Response.from(post);
 		postDto.setContent(post.getContent());
-		postDto.setReplies(post.getReplies().stream().map(ReplyDto.Response::of).collect(Collectors.toList()));
+		postDto.setReplies(post.getReplies()
+			.stream()
+			.map(ReplyDto.Response::of)
+			.sorted(Comparator.comparing(ReplyDto.Response::getWriteDate))
+			.collect(Collectors.toList())
+		);
+
 		return postDto;
 	}
 
