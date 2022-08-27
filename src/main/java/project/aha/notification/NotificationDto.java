@@ -44,7 +44,7 @@ public class NotificationDto {
 				.id(notification.getId())
 				.message(notification.getMessage())
 				.publishDate(notification.getPublishDate())
-				.postId(notification.getPost().getId())
+				.postId(notification.getPost() != null ? notification.getId() : null)
 				.viewYn(notification.isViewYn())
 				.build();
 		}
