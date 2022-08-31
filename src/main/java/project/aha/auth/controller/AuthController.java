@@ -12,6 +12,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import project.aha.auth.dto.AuthRequest;
 import project.aha.auth.dto.AuthResponse;
@@ -23,6 +31,7 @@ import project.aha.common.dto.ErrorResponse;
 import project.aha.common.dto.Result;
 import project.aha.common.validation.ValidationSequence;
 
+@Tag(name = "auth", description = "인증 API")
 @RestController
 @RequestMapping("/auth")
 @CrossOrigin()
@@ -31,6 +40,15 @@ public class AuthController {
 
 	private final AuthService authService;
 
+	@Operation(summary = "signup", description = "회원가입")
+	@ApiResponses({
+		@ApiResponse(responseCode = "200", description = "OK", content = @Content(schema = @Schema(implementation = AuthResponse.class))),
+		@ApiResponse(responseCode = "400", description = "BAD REQUEST")
+	})
+	@Parameters({
+		@Parameter(name = "id", description = "아이디", example = "test123"),
+		@Parameter(name = "password", description = "비밀번호", example = "1234")
+	})
 	@PostMapping("/signup")
 	public ResponseEntity<BasicResponse> signup(
 		@Validated(ValidationSequence.class) @RequestBody AuthRequest authRequest) {
