@@ -14,3 +14,13 @@
 - Spring Security & JWT 를 사용하여 인증/인가 관리
 - Jira 스프린트 & Notion을 사용하여 협업 및 일정 관리
 
+# 작업 기간
+2022년 6월 - 2022년 8월
+
+# 팀원 및 역할
+
+박인우
+- 백엔드 REST API 개발
+
+이준기 [(Github)](https://github.com/Hanav52)
+- React Frontend 개발
