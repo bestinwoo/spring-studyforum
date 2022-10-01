@@ -82,7 +82,9 @@ public class AuthService {
 
 		TokenDto tokenDto = tokenProvider.generateTokenDto(authentication);
 
-		redisTemplate.opsForValue().set(key, tokenDto.getRefreshToken());
+		redisTemplate.opsForValue()
+			.set(key, tokenDto.getRefreshToken(), tokenDto.getRefreshTokenExpiresIn() - new Date().getTime(),
+				TimeUnit.MILLISECONDS);
 		return tokenDto;
 	}
 
