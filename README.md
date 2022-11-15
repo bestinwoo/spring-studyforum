@@ -13,7 +13,7 @@
 # 사용 기술
 
 - MySQL + Spring Data JPA를 사용한 데이터베이스 작업
-- JPQL, Native Query를 사용하여 해시태그 기능 구현
+- JPQL을 사용하여 해시태그 기능 구현
 - Swagger를 사용한 API Docs 생성
 - Spring Security & JWT 를 사용하여 인증/인가 관리
 - Jira 스프린트 & Notion을 사용하여 협업 및 일정 관리
