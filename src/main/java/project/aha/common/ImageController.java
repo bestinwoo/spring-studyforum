@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class ImageController {
 	@GetMapping("/image/{fileName}")
 	public ResponseEntity<Resource> getImageByPath(@PathVariable String fileName) {
-		String absolutePath = new File("").getAbsolutePath() + "\\";
+		String absolutePath = new File("").getAbsolutePath() + File.separator;
 		String path = absolutePath + "src/main/resources/images/" + fileName;
 		Resource resource = new FileSystemResource(path);
 
