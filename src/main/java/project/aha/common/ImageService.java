@@ -14,7 +14,7 @@ public class ImageService {
 		if (!originName.endsWith(".png") && !originName.endsWith(".jpg")) {
 			throw new IOException("png 또는 jpg 파일만 업로드 가능합니다.");
 		}
-		String absolutePath = new File("").getAbsolutePath() + "\\";
+		String absolutePath = new File("").getAbsolutePath() + File.separator;
 		String path = "src/main/resources/images/";
 		File file = new File(path);
 		if (!file.exists()) {
