@@ -28,3 +28,30 @@
 
 이준기 [(Github)](https://github.com/Hanav52)
 - React Frontend 개발
+
+# 화면 구성
+<div>
+  <h5>로그인&회원가입</h5>
+<img width="49%" src="https://user-images.githubusercontent.com/83685954/203502076-4881cbb4-5c39-47ab-a7a5-9dcc769224e9.jpg"/>
+<img width="50%" src="https://user-images.githubusercontent.com/83685954/203499163-b3cf7777-efa6-40b4-808f-f0b85f055958.jpg"/>
+</div>
+<div>
+  <h5>메인화면</h5>
+<img width="49%" src="https://user-images.githubusercontent.com/83685954/203555295-bc5016e5-5515-4b3a-a96e-6fb231126985.jpg"/>
+<img width="50%" src="https://user-images.githubusercontent.com/83685954/203555741-bde3ece3-9149-4dc1-8924-62caa07dc076.jpg"/>
+</div>
+<div>
+  <h5>글 목록</h5>
+<img width="49%" src="https://user-images.githubusercontent.com/83685954/203568754-192626cf-e8bf-4376-87ff-413b9f935b68.jpg"/>
+<img width="50%" src="https://user-images.githubusercontent.com/83685954/203568775-169024af-923f-42e3-a07a-c80c73548c80.jpg"/>
+</div>
+<div>
+  <h5>상세페이지</h5>
+<img width="50%" src="https://user-images.githubusercontent.com/83685954/203569211-9e036083-e095-4683-a870-2fa8ed970cdd.jpg"/>
+<img width="49%" src="https://user-images.githubusercontent.com/83685954/203569364-9576ffb2-16e9-488c-8b37-80775688a183.jpg"/>
+</div>
+<div>
+  <h5>프로필</h5>
+<img width="50%" src="https://user-images.githubusercontent.com/83685954/203569914-4c40bdb9-9151-41a8-b718-3abb85c5aacf.jpg"/>
+<img width="49%" src="https://user-images.githubusercontent.com/83685954/203569924-58061aa2-c26c-4319-88c2-bde3c370b024.jpg"/>
+</div>
