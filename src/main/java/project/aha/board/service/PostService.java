@@ -33,7 +33,7 @@ public class PostService {
 	@Transactional(rollbackFor = Exception.class)
 	public Long writePost(PostDto.Request postDto, MultipartFile file) throws IOException {
 		Long userId = SecurityUtil.getCurrentMemberId();
-		project.aha.board.domain.Post savedPost = postRepository.save(postDto.toPost(userId));
+		Post savedPost = postRepository.save(postDto.toPost(userId));
 		postTagService.saveTags(savedPost, postDto.getTags());
 		Long postId = savedPost.getId();
 		if (file != null) {
@@ -45,7 +45,7 @@ public class PostService {
 	@Transactional(readOnly = true)
 	public Page<PostDto.Response> getPostsByKeywordAndSort(Pageable pageable, Long boardId, String keyword) {
 		Page<Post> posts = postRepository.findByBoardIdAndTitleContaining(boardId,
-			keyword, pageable);
+				keyword, pageable);
 		if (posts.isEmpty()) {
 			throw new ResourceNotFoundException();
 		}
@@ -60,10 +60,10 @@ public class PostService {
 		PostDto.Response postDto = PostDto.Response.from(post);
 		postDto.setContent(post.getContent());
 		postDto.setReplies(post.getReplies()
-			.stream()
-			.map(ReplyDto.Response::of)
-			.sorted(Comparator.comparing(ReplyDto.Response::getWriteDate))
-			.collect(Collectors.toList())
+				.stream()
+				.map(ReplyDto.Response::of)
+				.sorted(Comparator.comparing(ReplyDto.Response::getWriteDate))
+				.collect(Collectors.toList())
 		);
 
 		return postDto;
@@ -83,9 +83,9 @@ public class PostService {
 		}
 		//기존 게시글 태그 중 수정본 태그에 없는 않는 태그들 (삭제해야 할 태그들)
 		List<PostTag> deleteForPostTags = post.getTags()
-			.stream()
-			.filter(p -> !request.getTags().contains(p.getTag().getName()))
-			.collect(Collectors.toList());
+				.stream()
+				.filter(p -> !request.getTags().contains(p.getTag().getName()))
+				.collect(Collectors.toList());
 
 		List<Tag> deleteForTags = deleteForPostTags.stream().map(PostTag::getTag).collect(Collectors.toList());
 
@@ -110,7 +110,7 @@ public class PostService {
 		}
 
 		List<Long> deleteTagIds = post.getTags().stream().map(PostTag::getTag).map(Tag::getId).collect(
-			Collectors.toList());
+				Collectors.toList());
 
 		postRepository.delete(post);
 		//고아 태그 삭제
