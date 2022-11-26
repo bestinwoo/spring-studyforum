@@ -4,7 +4,6 @@ import static org.springframework.http.MediaType.*;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -50,12 +49,12 @@ public class PostController {
 
 	@Operation(summary = "게시글 작성")
 	@ApiResponses({
-		@ApiResponse(responseCode = "201", description = "CREATED", content = @Content(schema = @Schema(implementation = Result.class), mediaType = APPLICATION_JSON_VALUE)),
-		@ApiResponse(responseCode = "400", description = "BAD REQUEST", content = @Content(schema = @Schema(implementation = ErrorResponse.class), mediaType = APPLICATION_JSON_VALUE))
+			@ApiResponse(responseCode = "201", description = "CREATED", content = @Content(schema = @Schema(implementation = Result.class), mediaType = APPLICATION_JSON_VALUE)),
+			@ApiResponse(responseCode = "400", description = "BAD REQUEST", content = @Content(schema = @Schema(implementation = ErrorResponse.class), mediaType = APPLICATION_JSON_VALUE))
 	})
 	@PostMapping("/post")
 	public ResponseEntity<BasicResponse> writePost(@Validated(ValidationSequence.class) PostDto.Request postDto,
-		@RequestParam("file") MultipartFile file) {
+			@RequestParam("file") MultipartFile file) {
 		try {
 			Long id = postService.writePost(postDto, file);
 			return ResponseEntity.status(HttpStatus.CREATED).body(new Result<>(id));
@@ -67,22 +66,21 @@ public class PostController {
 	@Operation(summary = "게시글 목록 조회")
 	@ApiResponse(responseCode = "200", description = "OK", content = @Content(schema = @Schema(implementation = PostDto.Response.class), mediaType = APPLICATION_JSON_VALUE))
 	@Parameters({
-		@Parameter(name = "boardId", description = "게시판 ID"),
-		@Parameter(name = "keyword", description = "검색어"),
-		@Parameter(name = "tagName", description = "태그 검색어")
+			@Parameter(name = "boardId", description = "게시판 ID"),
+			@Parameter(name = "keyword", description = "검색어"),
+			@Parameter(name = "tagName", description = "태그 검색어")
 	})
 	@GetMapping("/post")
 	public ResponseEntity<BasicResponse> getPost(Pageable pageable, @RequestParam Long boardId,
-		@RequestParam(required = false, defaultValue = "") String keyword,
-		@RequestParam(required = false) List<String> tagName) {
+			@RequestParam(required = false, defaultValue = "") String keyword,
+			@RequestParam(required = false) List<String> tagName) {
 		Page<PostDto.Response> posts;
-
 		if (tagName != null && !tagName.isEmpty()) {
-			tagName = tagName.stream().map(tag -> "%" + tag + "%").collect(Collectors.toList());
 			posts = postService.getPostByTagName(pageable, boardId, tagName);
 		} else {
 			posts = postService.getPostsByKeywordAndSort(pageable, boardId, keyword);
 		}
+
 		return ResponseEntity.ok(new Result<>(posts, posts.getNumberOfElements()));
 	}
 
