@@ -19,12 +19,12 @@ public class NotificationDto {
 
 		public Notification toNotification() {
 			return Notification.builder()
-				.post(Post.builder().id(postId).build())
-				.publishDate(LocalDateTime.now())
-				.receiver(User.builder().id(receiverId).build())
-				.viewYn(false)
-				.message(message)
-				.build();
+					.post(Post.builder().id(postId).build())
+					.publishDate(LocalDateTime.now())
+					.receiver(User.builder().id(receiverId).build())
+					.viewYn(false)
+					.message(message)
+					.build();
 
 		}
 	}
@@ -41,12 +41,12 @@ public class NotificationDto {
 
 		public static Response of(Notification notification) {
 			return Response.builder()
-				.id(notification.getId())
-				.message(notification.getMessage())
-				.publishDate(notification.getPublishDate())
-				.postId(notification.getPost() != null ? notification.getId() : null)
-				.viewYn(notification.isViewYn())
-				.build();
+					.id(notification.getId())
+					.message(notification.getMessage())
+					.publishDate(notification.getPublishDate())
+					.postId(notification.getPost() != null ? notification.getPost().getId() : null)
+					.viewYn(notification.isViewYn())
+					.build();
 		}
 	}
 }
